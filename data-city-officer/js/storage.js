@@ -46,8 +46,7 @@ const StorageManager = {
         achievements: data.achievements || [],
         powerUps: data.powerUps || { auditLog: 1, encryption: 1 },
         settings: {
-          soundEnabled: data.settings?.soundEnabled !== false,
-          musicEnabled: data.settings?.musicEnabled !== false
+          soundEnabled: data.settings?.soundEnabled !== false
         },
         timestamp: Date.now()
       });

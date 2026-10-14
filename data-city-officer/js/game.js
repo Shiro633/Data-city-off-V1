@@ -25,7 +25,6 @@ class GameController {
     this.auditLogUsedForCurrentQuestion = false;
     this.encryptionUsedForCurrentQuestion = false;
     AudioManager.toggleSound(GameState.state.settings.soundEnabled);
-    AudioManager.toggleMusic(GameState.state.settings.musicEnabled);
     UIManager.updateHeader(GameState.state);
     UIManager.renderMap(GameState.state);
     this.bindEvents();

@@ -143,13 +143,8 @@ function bindUIEvents() {
   const soundBtn = document.getElementById("btn-sound-toggle");
   if (soundBtn) {
     soundBtn.addEventListener("click", () => {
-      const isNowEnabled = !(
-        GameState.state.settings.soundEnabled || GameState.state.settings.musicEnabled
-      );
-      AudioManager.toggleSound(isNowEnabled);
-      AudioManager.toggleMusic(isNowEnabled);
+      const isNowEnabled = AudioManager.toggleSound();
       GameState.state.settings.soundEnabled = isNowEnabled;
-      GameState.state.settings.musicEnabled = isNowEnabled;
       StorageManager.saveGame(GameState.state);
       UIManager.updateHeader(GameState.state);
       AudioManager.playClick();
@@ -210,10 +205,6 @@ function bindUIEvents() {
       if (soundSwitch) {
         soundSwitch.checked = GameState.state.settings.soundEnabled;
       }
-      const musicSwitch = document.getElementById("settings-music-switch");
-      if (musicSwitch) {
-        musicSwitch.checked = GameState.state.settings.musicEnabled;
-      }
       document.getElementById("modal-settings").classList.add("active");
     });
   }
@@ -224,18 +215,6 @@ function bindUIEvents() {
     soundSwitch.addEventListener("change", (e) => {
       AudioManager.toggleSound(e.target.checked);
       GameState.state.settings.soundEnabled = e.target.checked;
-      StorageManager.saveGame(GameState.state);
-      UIManager.updateHeader(GameState.state);
-      AudioManager.playClick();
-    });
-  }
-
-  // Settings: Background Music Switch
-  const musicSwitch = document.getElementById("settings-music-switch");
-  if (musicSwitch) {
-    musicSwitch.addEventListener("change", (e) => {
-      AudioManager.toggleMusic(e.target.checked);
-      GameState.state.settings.musicEnabled = e.target.checked;
       StorageManager.saveGame(GameState.state);
       UIManager.updateHeader(GameState.state);
       AudioManager.playClick();

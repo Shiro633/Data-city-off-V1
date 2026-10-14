@@ -19,9 +19,6 @@ const UIManager = {
     const target = document.getElementById(`screen-${screenId}`);
     if (target) {
       target.classList.add("active");
-      AudioManager.setBackgroundMusic(
-        screenId === "menu" || screenId === "splash" ? "menu" : "game"
-      );
     }
 
     // Scroll viewport to top
@@ -50,9 +47,8 @@ const UIManager = {
     }
 
     if (soundBtn) {
-      const isSoundEnabled = state.settings.soundEnabled || state.settings.musicEnabled;
-      soundBtn.textContent = isSoundEnabled ? "🔊" : "🔇";
-      soundBtn.setAttribute("aria-label", isSoundEnabled ? "Mute Sound" : "Unmute Sound");
+      soundBtn.textContent = state.settings.soundEnabled ? "🔊" : "🔇";
+      soundBtn.setAttribute("aria-label", state.settings.soundEnabled ? "Mute Sound" : "Unmute Sound");
     }
   },
 
@@ -609,7 +605,6 @@ const UIManager = {
     }
 
     overlay.hidden = false;
-    AudioManager.setBackgroundMusic("defeat");
     if (typeof onFinished === "function") {
       setTimeout(() => {
         overlay.hidden = true;

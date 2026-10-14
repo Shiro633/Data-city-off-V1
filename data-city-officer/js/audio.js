@@ -7,13 +7,8 @@ class SoundSystem {
   constructor() {
     this.ctx = null;
     this.enabled = true;
-    this.musicEnabled = true;
     this.initialized = false;
     this.resumePromise = null;
-    this.musicTrack = null;
-    this.musicTimer = null;
-    this.musicGain = null;
-    this.musicVoices = new Set();
   }
 
   /**
@@ -50,9 +45,6 @@ class SoundSystem {
         })
         .then(isRunning => {
           this.resumePromise = null;
-          if (isRunning && this.musicEnabled && this.musicTrack && this.musicTimer === null) {
-            this.startBackgroundMusic();
-          }
           return isRunning;
         });
     } catch (error) {
@@ -82,144 +74,6 @@ class SoundSystem {
     }
 
     return this.enabled;
-  }
-
-  toggleMusic(enabled) {
-    this.musicEnabled = typeof enabled === "boolean" ? enabled : !this.musicEnabled;
-    if (this.musicEnabled) {
-      this.startBackgroundMusic();
-    } else {
-      this.stopBackgroundMusic();
-    }
-    return this.musicEnabled;
-  }
-
-  setBackgroundMusic(track) {
-    if (this.musicTrack === track) {
-      this.startBackgroundMusic();
-      return;
-    }
-
-    this.stopBackgroundMusic();
-    this.musicTrack = track;
-    this.startBackgroundMusic();
-  }
-
-  startBackgroundMusic() {
-    if (!this.musicEnabled || !this.musicTrack || this.musicTimer !== null) return;
-    if (!this.prepareContext(() => this.startBackgroundMusic())) return;
-
-    if (!this.musicGain) {
-      this.musicGain = this.ctx.createGain();
-      this.musicGain.gain.value = 0;
-      this.musicGain.connect(this.ctx.destination);
-    }
-
-    this.musicGain.gain.setTargetAtTime(0.25, this.ctx.currentTime, 0.15);
-    this.scheduleMusicPhrase();
-  }
-
-  stopBackgroundMusic() {
-    if (this.musicTimer !== null) {
-      clearTimeout(this.musicTimer);
-      this.musicTimer = null;
-    }
-
-    const now = this.ctx ? this.ctx.currentTime : 0;
-    if (this.musicGain && this.ctx) {
-      this.musicGain.gain.setTargetAtTime(0, now, 0.04);
-    }
-
-    this.musicVoices.forEach(voice => {
-      voice.gain.gain.setTargetAtTime(0, now, 0.02);
-      try {
-        voice.oscillator.stop(now + 0.12);
-      } catch (error) {
-        console.warn("Unable to stop background music voice:", error);
-      }
-    });
-  }
-
-  scheduleMusicPhrase() {
-    if (!this.musicEnabled || !this.musicTrack || !this.ctx || this.ctx.state !== "running") return;
-
-    const patterns = {
-      menu: {
-        stepDuration: 0.62,
-        chord: [220, 277.18, 329.63],
-        melody: [523.25, 659.25, 783.99, 659.25, 587.33, 659.25, 523.25, 440],
-        chordVolume: 0.035,
-        melodyVolume: 0.07,
-        melodyType: "sine"
-      },
-      game: {
-        stepDuration: 0.44,
-        chord: [146.83, 220, 293.66],
-        melody: [440, 523.25, 659.25, 523.25, 392, 493.88, 587.33, 493.88],
-        chordVolume: 0.025,
-        melodyVolume: 0.055,
-        melodyType: "triangle",
-        loop: true
-      },
-      defeat: {
-        stepDuration: 0.68,
-        chord: [110, 164.81, 196],
-        melody: [392, 349.23, 293.66, 261.63, 220, 196, 164.81, 146.83],
-        chordVolume: 0.03,
-        melodyVolume: 0.065,
-        melodyType: "sine",
-        loop: false
-      }
-    };
-    const pattern = patterns[this.musicTrack];
-    if (!pattern) return;
-
-    const phraseDuration = pattern.stepDuration * pattern.melody.length;
-    const startTime = this.ctx.currentTime + 0.03;
-    pattern.chord.forEach(frequency => {
-      this.playMusicNote(frequency, startTime, phraseDuration - 0.08, pattern.chordVolume, "sine");
-    });
-    pattern.melody.forEach((frequency, index) => {
-      this.playMusicNote(
-        frequency,
-        startTime + index * pattern.stepDuration,
-        pattern.stepDuration * 0.78,
-        pattern.melodyVolume,
-        pattern.melodyType
-      );
-    });
-
-    this.musicTimer = setTimeout(() => {
-      this.musicTimer = null;
-      if (pattern.loop) {
-        this.scheduleMusicPhrase();
-      } else if (this.musicTrack === "defeat") {
-        this.stopBackgroundMusic();
-        this.musicTrack = null;
-      }
-    }, phraseDuration * 1000);
-  }
-
-  playMusicNote(frequency, startTime, duration, volume, type) {
-    try {
-      const oscillator = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      oscillator.type = type;
-      oscillator.frequency.setValueAtTime(frequency, startTime);
-      gain.gain.setValueAtTime(0.001, startTime);
-      gain.gain.linearRampToValueAtTime(volume, startTime + Math.min(0.12, duration * 0.25));
-      gain.gain.setTargetAtTime(0.001, startTime + duration * 0.55, duration * 0.12);
-      oscillator.connect(gain);
-      gain.connect(this.musicGain);
-      oscillator.start(startTime);
-      oscillator.stop(startTime + duration);
-
-      const voice = { oscillator, gain };
-      this.musicVoices.add(voice);
-      oscillator.addEventListener("ended", () => this.musicVoices.delete(voice), { once: true });
-    } catch (error) {
-      console.warn("Unable to play background music:", error);
-    }
   }
 
   playFootstep() {
