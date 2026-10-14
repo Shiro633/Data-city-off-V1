@@ -45,7 +45,10 @@ const StorageManager = {
         },
         achievements: data.achievements || [],
         powerUps: data.powerUps || { auditLog: 1, encryption: 1 },
-        settings: data.settings || { soundEnabled: true },
+        settings: {
+          soundEnabled: data.settings?.soundEnabled !== false,
+          musicEnabled: data.settings?.musicEnabled !== false
+        },
         timestamp: Date.now()
       });
       localStorage.setItem(STORAGE_KEY, payload);

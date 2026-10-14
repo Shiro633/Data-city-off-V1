@@ -113,16 +113,20 @@ function initBackgroundCanvas() {
  * Bind Click & UI Interactions
  */
 function bindUIEvents() {
-  // Unlock Web Audio API on first user interaction anywhere
+  // Keep retrying until iOS and other browsers allow the audio context to run.
   const unlockAudio = () => {
-    AudioManager.ensureContext();
-    document.removeEventListener("click", unlockAudio);
-    document.removeEventListener("keydown", unlockAudio);
-    document.removeEventListener("touchstart", unlockAudio);
+    AudioManager.ensureContext().then(isRunning => {
+      if (!isRunning) return;
+      document.removeEventListener("click", unlockAudio);
+      document.removeEventListener("keydown", unlockAudio);
+      document.removeEventListener("pointerdown", unlockAudio);
+      document.removeEventListener("touchstart", unlockAudio);
+    });
   };
   document.addEventListener("click", unlockAudio);
   document.addEventListener("keydown", unlockAudio);
-  document.addEventListener("touchstart", unlockAudio);
+  document.addEventListener("pointerdown", unlockAudio, { passive: true });
+  document.addEventListener("touchstart", unlockAudio, { passive: true });
 
   // Header Brand Logo -> Return to Main Menu
   const brandLogo = document.getElementById("header-brand-logo");
@@ -139,8 +143,13 @@ function bindUIEvents() {
   const soundBtn = document.getElementById("btn-sound-toggle");
   if (soundBtn) {
     soundBtn.addEventListener("click", () => {
-      const isNowEnabled = AudioManager.toggleSound();
+      const isNowEnabled = !(
+        GameState.state.settings.soundEnabled || GameState.state.settings.musicEnabled
+      );
+      AudioManager.toggleSound(isNowEnabled);
+      AudioManager.toggleMusic(isNowEnabled);
       GameState.state.settings.soundEnabled = isNowEnabled;
+      GameState.state.settings.musicEnabled = isNowEnabled;
       StorageManager.saveGame(GameState.state);
       UIManager.updateHeader(GameState.state);
       AudioManager.playClick();
@@ -201,6 +210,10 @@ function bindUIEvents() {
       if (soundSwitch) {
         soundSwitch.checked = GameState.state.settings.soundEnabled;
       }
+      const musicSwitch = document.getElementById("settings-music-switch");
+      if (musicSwitch) {
+        musicSwitch.checked = GameState.state.settings.musicEnabled;
+      }
       document.getElementById("modal-settings").classList.add("active");
     });
   }
@@ -211,6 +224,18 @@ function bindUIEvents() {
     soundSwitch.addEventListener("change", (e) => {
       AudioManager.toggleSound(e.target.checked);
       GameState.state.settings.soundEnabled = e.target.checked;
+      StorageManager.saveGame(GameState.state);
+      UIManager.updateHeader(GameState.state);
+      AudioManager.playClick();
+    });
+  }
+
+  // Settings: Background Music Switch
+  const musicSwitch = document.getElementById("settings-music-switch");
+  if (musicSwitch) {
+    musicSwitch.addEventListener("change", (e) => {
+      AudioManager.toggleMusic(e.target.checked);
+      GameState.state.settings.musicEnabled = e.target.checked;
       StorageManager.saveGame(GameState.state);
       UIManager.updateHeader(GameState.state);
       AudioManager.playClick();

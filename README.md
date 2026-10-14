@@ -99,7 +99,8 @@ data-city-officer/
   * Dibuat menggunakan SVG/CSS murni dengan ekspresi dinamis (*idle, thinking, happy, worried, shocked, victory*).
 * **Web Audio API Synthesizer:**
   * Bebas dari ketergantungan file audio eksternal. Menghasilkan suara prosedural (*correct chime, wrong buzz, warning, breach alarm, victory tune, powerup sound*).
-  * Dilengkapi tombol toggle Suara On/Off di navigasi atas dan pengaturan.
+  * Musik latar prosedural dengan tema berbeda untuk menu utama, permainan, dan musik kekalahan singkat; musik mengikuti layar aktif.
+  * Pengaturan menyediakan toggle musik latar dan efek suara secara terpisah; tombol suara di navigasi atas mematikan atau menyalakan keduanya.
 * **Penyimpanan Lokal (LocalStorage):**
   * Otomatis menyimpan skor, distrik yang terbuka, badge, achievement, serta pilihan dan progres pertanyaan sesi aktif agar dapat dilanjutkan.
   * Dilengkapi tombol *Continue Mission* dan opsi *Reset Game Data* dengan dialog konfirmasi.

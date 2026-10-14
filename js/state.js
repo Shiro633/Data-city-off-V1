@@ -229,7 +229,8 @@ const INITIAL_STATE = {
   },
 
   settings: {
-    soundEnabled: true
+    soundEnabled: true,
+    musicEnabled: true
   }
 };
 
