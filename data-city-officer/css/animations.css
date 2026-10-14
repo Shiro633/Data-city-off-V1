@@ -1,0 +1,325 @@
+/* ==========================================================================
+   DATA CITY OFFICER: GUARDIANS OF DATA CITY
+   Animations & Keyframes
+   ========================================================================== */
+
+/* Toast Animation */
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Pulsing Glows */
+@keyframes pulseGlowCyan {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(0, 242, 254, 0.85);
+  }
+}
+
+@keyframes pulseGlowRed {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 51, 102, 0.95);
+  }
+}
+
+@keyframes pulseGlowGreen {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 240, 144, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 240, 144, 0.95);
+  }
+}
+
+/* Screen Shake for Wrong Answer / Alert */
+@keyframes shakeScreen {
+  0%, 100% { transform: translate(0, 0); }
+  10%, 30%, 50%, 70%, 90% { transform: translate(-6px, 2px); }
+  20%, 40%, 60%, 80% { transform: translate(6px, -2px); }
+}
+
+.shake-active {
+  animation: shakeScreen 0.5s ease-in-out;
+}
+
+/* Violent Breach Shake */
+@keyframes breachShake {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  10% { transform: translate(-10px, -8px) scale(1.02); }
+  20% { transform: translate(12px, 8px) scale(0.99); }
+  30% { transform: translate(-12px, 4px) scale(1.01); }
+  40% { transform: translate(8px, -10px) scale(1.02); }
+  50% { transform: translate(-8px, 10px) scale(0.98); }
+  60% { transform: translate(10px, -6px) scale(1.01); }
+  70% { transform: translate(-10px, 8px) scale(1); }
+  80% { transform: translate(6px, -8px) scale(1.01); }
+  90% { transform: translate(-4px, 4px) scale(1); }
+}
+
+.breach-shake-active {
+  animation: breachShake 0.8s ease-in-out infinite;
+}
+
+/* Red Strobe Overlay for Data Breach */
+@keyframes redStrobe {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+#breach-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 0, 50, 0.5) 0%, rgba(180, 0, 30, 0.85) 100%);
+  pointer-events: none;
+  z-index: 999;
+  display: none;
+}
+
+#breach-overlay.active {
+  display: block;
+  animation: redStrobe 0.4s ease-in-out infinite;
+}
+
+.game-over-overlay[hidden] {
+  display: none;
+}
+
+.game-over-overlay {
+  position: fixed;
+  z-index: 1001;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #f0f6fc;
+  background: #000;
+  text-align: center;
+}
+
+.game-over-narrative {
+  width: min(100%, 760px);
+}
+
+.game-over-narrative h2,
+.game-over-line {
+  opacity: 0;
+  animation: gameOverReveal .7s ease-out forwards;
+}
+
+.game-over-narrative h2 {
+  margin-bottom: 28px;
+  color: #ff456b;
+  font-size: clamp(2.5rem, 9vw, 5rem);
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-shadow: 0 0 28px #ff174488;
+  animation-delay: .3s;
+}
+
+.game-over-line {
+  margin: 0 auto 18px;
+  color: #d7e0ec;
+  font-size: clamp(1rem, 3vw, 1.35rem);
+  line-height: 1.7;
+}
+
+.game-over-line-one { animation-delay: 1.4s; }
+.game-over-line-two { animation-delay: 2.8s; }
+.game-over-line-three { animation-delay: 4.2s; }
+
+.game-over-return {
+  margin-top: 34px;
+  color: #8291a7;
+  font-size: .95rem;
+  animation-delay: 5.7s;
+}
+
+@keyframes gameOverReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glitch Effect */
+@keyframes glitchText {
+  0% {
+    transform: translate(0);
+    text-shadow: -2px 0 #ff3366, 2px 0 #00f2fe;
+  }
+  25% {
+    transform: translate(-3px, 2px);
+    text-shadow: 2px -1px #ff3366, -2px 1px #00f2fe;
+  }
+  50% {
+    transform: translate(2px, -2px);
+    text-shadow: -2px 2px #ff3366, 2px -2px #00f2fe;
+  }
+  75% {
+    transform: translate(-2px, -1px);
+    text-shadow: 1px 2px #ff3366, -1px -2px #00f2fe;
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: -2px 0 #ff3366, 2px 0 #00f2fe;
+  }
+}
+
+.glitch-text {
+  animation: glitchText 0.2s steps(2, start) infinite;
+}
+
+/* Floating Animation */
+@keyframes floatY {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.floating-anim {
+  animation: floatY 3s ease-in-out infinite;
+}
+
+/* Character Idle Breathing */
+@keyframes officerBreathe {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.01);
+  }
+}
+
+.character-avatar.idle {
+  animation: officerBreathe 3s ease-in-out infinite;
+}
+
+/* Victory Jump */
+@keyframes victoryJump {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-18px) scale(1.05);
+  }
+  50% {
+    transform: translateY(-6px) scale(1);
+  }
+  70% {
+    transform: translateY(-14px) scale(1.03);
+  }
+}
+
+.character-avatar.victory {
+  animation: victoryJump 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+
+/* Worried Shake */
+@keyframes worriedTremble {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px) rotate(-1deg); }
+  75% { transform: translateX(2px) rotate(1deg); }
+}
+
+.character-avatar.worried {
+  animation: worriedTremble 0.6s ease-in-out infinite;
+}
+
+/* Shocked Freeze */
+@keyframes shockedGasp {
+  0%, 100% { transform: scale(1.08) translateY(-4px); }
+  50% { transform: scale(1.05) translateY(-2px); }
+}
+
+.character-avatar.shocked {
+  animation: shockedGasp 0.4s ease-in-out infinite;
+}
+
+/* Question Entrance */
+@keyframes questionIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.question-card-anim {
+  animation: questionIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Timer warning blink */
+@keyframes timerBlinkWarning {
+  0%, 100% { opacity: 1; color: var(--amber); }
+  50% { opacity: 0.5; color: #fff; }
+}
+
+@keyframes timerBlinkCritical {
+  0%, 100% { opacity: 1; color: var(--crimson); transform: scale(1.05); }
+  50% { opacity: 0.4; color: #fff; transform: scale(0.95); }
+}
+
+.timer-warning {
+  animation: timerBlinkWarning 0.8s ease infinite;
+}
+
+.timer-critical {
+  animation: timerBlinkCritical 0.4s ease infinite;
+}
+
+/* Option Eliminated Strike */
+@keyframes eliminateStrike {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+    filter: grayscale(80%);
+  }
+  100% {
+    opacity: 0.35;
+    transform: scale(0.96);
+    filter: grayscale(100%);
+  }
+}
+
+.option-eliminated {
+  animation: eliminateStrike 0.4s ease forwards;
+  pointer-events: none !important;
+  cursor: not-allowed !important;
+}
+
+/* Confetti container */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 150;
+}

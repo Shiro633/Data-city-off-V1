@@ -1,0 +1,2 @@
+# Audio assets directory
+# The game synthesizes sounds procedurally via the Web Audio API for standalone execution without external audio file dependencies.
