@@ -98,7 +98,7 @@ const StorageManager = {
    */
   hasSaveGame() {
     const save = this.loadGame();
-    return save !== null && (
+    return save !== null && (!Number.isInteger(save.lives) || save.lives > 0) && (
       (save.score && save.score.baseScore > 0) ||
       (save.completedDistricts && save.completedDistricts.length > 0) ||
       (Array.isArray(save.levelQuestionIds) && save.levelQuestionIds.length === 5) ||

@@ -102,6 +102,10 @@ class GameController {
   continueGame() {
     const saved = StorageManager.loadGame();
     if (saved) {
+      if (Number.isInteger(saved.lives) && saved.lives <= 0) {
+        UIManager.showToast("MISI BERAKHIR", "Mulai misi baru untuk bermain kembali.", "danger");
+        return;
+      }
       GameState.load(saved);
       UIManager.updateHeader(GameState.state);
       UIManager.renderMap(GameState.state);
