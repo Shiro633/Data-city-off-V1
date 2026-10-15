@@ -8,7 +8,6 @@ class SoundSystem {
     this.ctx = null;
     this.enabled = true;
     this.initialized = false;
-    this.resumePromise = null;
   }
 
   /**
@@ -34,25 +33,34 @@ class SoundSystem {
     this.init();
     if (!this.ctx) return Promise.resolve(false);
     if (this.ctx.state === "running") return Promise.resolve(true);
-    if (this.resumePromise) return this.resumePromise;
 
     try {
-      this.resumePromise = this.ctx.resume()
+      return this.ctx.resume()
         .then(() => this.ctx.state === "running")
         .catch(error => {
           console.warn("Unable to resume Web Audio API context:", error);
           return false;
-        })
-        .then(isRunning => {
-          this.resumePromise = null;
-          return isRunning;
         });
     } catch (error) {
       console.warn("Unable to resume Web Audio API context:", error);
       return Promise.resolve(false);
     }
+  }
 
-    return this.resumePromise;
+  unlockFromGesture() {
+    this.init();
+    if (!this.ctx || this.ctx.state === "running") return this.ensureContext();
+
+    try {
+      const source = this.ctx.createBufferSource();
+      source.buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
+      source.connect(this.ctx.destination);
+      source.start(0);
+    } catch (error) {
+      console.warn("Unable to unlock Web Audio API from user interaction:", error);
+    }
+
+    return this.ensureContext();
   }
 
   prepareContext(retry) {

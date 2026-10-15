@@ -114,7 +114,7 @@ function initBackgroundCanvas() {
  */
 function bindUIEvents() {
   // Mobile browsers may suspend audio again after the page returns from the background.
-  const unlockAudio = () => AudioManager.ensureContext();
+  const unlockAudio = () => AudioManager.unlockFromGesture();
   document.addEventListener("click", unlockAudio, true);
   document.addEventListener("keydown", unlockAudio, true);
   document.addEventListener("pointerdown", unlockAudio, { capture: true, passive: true });
