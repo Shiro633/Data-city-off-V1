@@ -113,20 +113,15 @@ function initBackgroundCanvas() {
  * Bind Click & UI Interactions
  */
 function bindUIEvents() {
-  // Keep retrying until iOS and other browsers allow the audio context to run.
-  const unlockAudio = () => {
-    AudioManager.ensureContext().then(isRunning => {
-      if (!isRunning) return;
-      document.removeEventListener("click", unlockAudio);
-      document.removeEventListener("keydown", unlockAudio);
-      document.removeEventListener("pointerdown", unlockAudio);
-      document.removeEventListener("touchstart", unlockAudio);
-    });
-  };
-  document.addEventListener("click", unlockAudio);
-  document.addEventListener("keydown", unlockAudio);
-  document.addEventListener("pointerdown", unlockAudio, { passive: true });
-  document.addEventListener("touchstart", unlockAudio, { passive: true });
+  // Mobile browsers may suspend audio again after the page returns from the background.
+  const unlockAudio = () => AudioManager.ensureContext();
+  document.addEventListener("click", unlockAudio, true);
+  document.addEventListener("keydown", unlockAudio, true);
+  document.addEventListener("pointerdown", unlockAudio, { capture: true, passive: true });
+  document.addEventListener("touchstart", unlockAudio, { capture: true, passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) unlockAudio();
+  });
 
   // Header Brand Logo -> Return to Main Menu
   const brandLogo = document.getElementById("header-brand-logo");
