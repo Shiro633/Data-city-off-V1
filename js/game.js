@@ -11,6 +11,8 @@ class GameController {
     this.encryptionUsedForCurrentQuestion = false;
     this.districtOrder = DISTRICT_ORDER;
     this.currentTutorialStep = 0;
+    this.purchaseInProgress = false;
+    this.lastPurchaseAt = {};
   }
 
   /**
@@ -54,8 +56,10 @@ class GameController {
     // Reset status level distrik agar bisa dimainkan lagi
     this.districtOrder.forEach(k => {
       if (state.districts[k]) {
+        state.districts[k].levels = [false, false, false];
         state.districts[k].level1Complete = false;
         state.districts[k].level2Complete = false;
+        state.districts[k].level3Complete = false;
         state.districts[k].security = 20;
       }
     });
@@ -193,7 +197,7 @@ class GameController {
     if (!DISTRICTS_CONFIG[districtKey] || !dState) return false;
     if (!dState.unlocked) {
       AudioManager.playWarning();
-      UIManager.showToast("DISTRIK TERKUNCI", "Selesaikan kedua level distrik sebelumnya terlebih dahulu!", "danger");
+      UIManager.showToast("DISTRIK TERKUNCI", "Selesaikan Level 3 di stage sebelumnya terlebih dahulu!", "danger");
       return false;
     }
 
@@ -220,15 +224,15 @@ class GameController {
 
     if (!dState?.unlocked) {
       AudioManager.playWarning();
-      UIManager.showToast("DISTRIK TERKUNCI", "Selesaikan kedua level distrik sebelumnya terlebih dahulu!", "danger");
+      UIManager.showToast("DISTRIK TERKUNCI", "Selesaikan Level 3 di stage sebelumnya terlebih dahulu!", "danger");
       return;
     }
 
-    if (levelNumber !== 1 && levelNumber !== 2) return;
+    if (!Number.isInteger(levelNumber) || levelNumber < 1 || levelNumber > 3) return;
 
-    if (levelNumber === 2 && !dState.level1Complete && !dState.level2Complete) {
+    if (levelNumber > 1 && !GameState.isLevelComplete(districtKey, levelNumber - 1)) {
       AudioManager.playWarning();
-      UIManager.showToast("LEVEL 2 TERKUNCI", "Selesaikan Level 1 terlebih dahulu!", "danger");
+      UIManager.showToast(`LEVEL ${levelNumber} TERKUNCI`, `Selesaikan Level ${levelNumber - 1} terlebih dahulu!`, "danger");
       return;
     }
 
@@ -273,8 +277,8 @@ class GameController {
     const questions = QUESTIONS_DATA.filter(
       question => question.district === districtKey && question.level === levelNumber
     );
-    if (questions.length < 5) {
-      console.error(`Level ${districtKey} ${levelNumber} has only ${questions.length} questions; 5 are required.`);
+    if (questions.length !== 30) {
+      console.error(`Level ${districtKey} ${levelNumber} has ${questions.length} questions; exactly 30 are required.`);
       return null;
     }
 
@@ -417,40 +421,48 @@ class GameController {
 
     } else {
       AudioManager.playWrong();
-      state.lives--;
-      UIManager.updateHeader(state);
-
-      if (state.lives === 2) {
-        warningNotice = "⚠️ PERINGATAN (1 Salah): Keputusanmu membuka potensi risiko data!";
-        AudioManager.playWarning();
-        UIManager.showFeedback(false, selectedIndex, currentQ, 0, warningNotice);
-      } else if (state.lives === 1) {
-        warningNotice = "⚠️ SECURITY ALERT (2 Salah): Keamanan semakin lemah! Skor level berkurang 50%!";
-        state.currentLevelScore = Math.floor(state.currentLevelScore * 0.5);
-        AudioManager.playWarning();
-        UIManager.showFeedback(false, selectedIndex, currentQ, 0, warningNotice);
-      } else if (state.lives <= 0) {
-        state.stats.breachesInCurrentDistrict++;
-        state.score.baseScore = Math.max(0, state.score.baseScore - state.currentLevelScore);
-        state.score.speedBonus = Math.max(0, state.score.speedBonus - state.currentLevelSpeedBonus);
-        state.score.totalScore = state.score.baseScore + state.score.speedBonus;
-        state.currentLevelScore = 0;
-        state.currentLevelSpeedBonus = 0;
-        this.closeModals();
-        this.stopTimer();
-        StorageManager.saveGame(state);
+      if (state.activeShield && state.inventory.encryptionShield > 0) {
+        state.inventory.encryptionShield--;
+        state.activeShield = false;
+        warningNotice = "🛡️ ENCRYPTION SHIELD menyerap penalti dan mencegah kehilangan 1 nyawa.";
         UIManager.updateHeader(state);
-        AudioManager.playBreachAlarm();
+        UIManager.showFeedback(false, selectedIndex, currentQ, 0, warningNotice);
+      } else {
+        state.lives--;
+        UIManager.updateHeader(state);
 
-        UIManager.triggerGameOverSequence(() => {
+        if (state.lives === 2) {
+          warningNotice = "⚠️ PERINGATAN (1 Salah): Keputusanmu membuka potensi risiko data!";
+          AudioManager.playWarning();
+          UIManager.showFeedback(false, selectedIndex, currentQ, 0, warningNotice);
+        } else if (state.lives === 1) {
+          warningNotice = "⚠️ SECURITY ALERT (2 Salah): Keamanan semakin lemah! Skor level berkurang 50%!";
+          state.currentLevelScore = Math.floor(state.currentLevelScore * 0.5);
+          AudioManager.playWarning();
+          UIManager.showFeedback(false, selectedIndex, currentQ, 0, warningNotice);
+        } else if (state.lives <= 0) {
+          state.stats.breachesInCurrentDistrict++;
+          state.score.baseScore = Math.max(0, state.score.baseScore - state.currentLevelScore);
+          state.score.speedBonus = Math.max(0, state.score.speedBonus - state.currentLevelSpeedBonus);
+          state.score.totalScore = state.score.baseScore + state.score.speedBonus;
+          state.currentLevelScore = 0;
+          state.currentLevelSpeedBonus = 0;
           this.closeModals();
-          CityWorld.keys.clear();
-          CityWorld.touchKeys.clear();
-          CityWorld.paused = false;
-          UIManager.renderMap(state);
-          UIManager.showScreen("menu");
-        });
-        return;
+          this.stopTimer();
+          StorageManager.saveGame(state);
+          UIManager.updateHeader(state);
+          AudioManager.playBreachAlarm();
+
+          UIManager.triggerGameOverSequence(() => {
+            this.closeModals();
+            CityWorld.keys.clear();
+            CityWorld.touchKeys.clear();
+            CityWorld.paused = false;
+            UIManager.renderMap(state);
+            UIManager.showScreen("menu");
+          });
+          return;
+        }
       }
     }
     StorageManager.saveGame(state);
@@ -513,11 +525,17 @@ class GameController {
    */
   finishLevel() {
     const state = GameState.state;
+    if (state.levelQuestions.length !== 5 || state.currentQuestionIndex !== 4 || !state.currentQuestionAnswered) {
+      return;
+    }
     const districtKey = state.currentDistrict;
     const level = state.currentLevel;
     const dState = state.districts[districtKey];
+    if (!dState || !Number.isInteger(level) || level < 1 || level > 3) return;
     const xpBeforeLevel = state.currentLevelStartXP || 0;
     const citySecurityBefore = state.citySecurity || 0;
+    const levelId = `${districtKey}-level-${level}`;
+    const wasAlreadyComplete = GameState.isLevelComplete(districtKey, level);
 
     AudioManager.playLevelComplete();
 
@@ -547,49 +565,62 @@ class GameController {
     let livesRestored = false;
     let recoveredHearts = 0;
 
-    if (level === 1) {
-      dState.level1Complete = true;
-      state.xp += 250;
-      dState.security = Math.max(dState.security, 50);
-      newSec = dState.security;
-      isDistrictSecured = false;
-      UIManager.showToast("LEVEL SELESAI!", `+1 ${rewardName} didapatkan! (Total: ${rewardTotal})`, "normal");
-    } else if (level === 2) {
-      dState.level2Complete = true;
-      state.xp += 250;
-      dState.security = 100;
-      newSec = 100;
-      isDistrictSecured = true;
-
-      // Completing a district stage restores one life, up to the maximum of three.
+    isDistrictSecured = GameState.markLevelComplete(districtKey, level);
+    state.xp += 250;
+    newSec = dState.security;
+    if (isDistrictSecured) {
       if (state.lives < 3) {
         recoveredHearts = 1;
         state.lives = Math.min(3, state.lives + recoveredHearts);
         livesRestored = true;
         if (AudioManager.playHeal) AudioManager.playHeal();
       }
-
       if (!state.completedDistricts.includes(districtKey)) {
         state.completedDistricts.push(districtKey);
         state.xp += 500;
       }
-
       UIManager.showToast(
         "STAGE SELESAI!",
         livesRestored
-          ? `+1 ${rewardName} & +1 nyawa (${state.lives}/3 ❤️)!`
-          : `+1 ${rewardName} & Nyawa tetap penuh (3/3 ❤️)!`,
+          ? `Level 3 tuntas, ${DISTRICTS_CONFIG[districtKey].name} aman! +1 nyawa (${state.lives}/3 ❤️).`
+          : `Level 3 tuntas, ${DISTRICTS_CONFIG[districtKey].name} aman!`,
+        "normal"
+      );
+    } else {
+      UIManager.showToast(
+        "LEVEL SELESAI!",
+        `Level ${level} selesai. +1 ${rewardName} didapatkan! (Total: ${rewardTotal})`,
         "normal"
       );
     }
+
+    let payment = 0;
+    if (!wasAlreadyComplete && !state.paidLevels.includes(levelId)) {
+      const difficulty = ECONOMY_CONFIG.levelDifficulty[districtKey][level];
+      payment = ECONOMY_CONFIG.payments[difficulty];
+      state.balance += payment;
+      state.paidLevels.push(levelId);
+      state.paymentHistory.push({
+        levelId,
+        amount: payment,
+        difficulty,
+        paidAt: Date.now()
+      });
+      UIManager.showToast(
+        "PEMBAYARAN LEVEL",
+        `Warga yang kamu bantu membayar jasamu sebesar ${UIManager.formatCurrency(payment)}!`,
+        "normal"
+      );
+    }
+    state.activeShield = false;
 
     GameState.updateDistrictUnlocks();
 
     const completedMissions = this.districtOrder.reduce((total, key) => {
       const district = state.districts[key];
-      return total + Number(district.level1Complete) + Number(district.level2Complete);
+      return total + district.levels.filter(Boolean).length;
     }, 0);
-    state.citySecurity = Number((completedMissions / 8 * 100).toFixed(1));
+    state.citySecurity = Number((completedMissions / 12 * 100).toFixed(1));
 
     this.checkAchievements();
     state.levelQuestions = [];
@@ -598,8 +629,7 @@ class GameController {
     StorageManager.saveGame(state);
     UIManager.updateHeader(state);
 
-    // Check if entire game completed (all 4 districts level2Complete)
-    const allSecured = this.districtOrder.every(k => state.districts[k].level2Complete);
+    const allSecured = this.districtOrder.every(key => GameState.isStageComplete(key));
 
     if (allSecured) {
       CityWorld.savePlayerPosition();
@@ -618,11 +648,156 @@ class GameController {
           rewardType,
           rewardName,
           rewardTotal,
+          payment,
           livesRestored,
           recoveredHearts,
           currentLives: state.lives
         }
       );
+    }
+  }
+
+  openShop() {
+    CityWorld.keys.clear();
+    CityWorld.touchKeys.clear();
+    UIManager.renderShop(GameState.state);
+    const modal = document.getElementById("modal-shop");
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+  }
+
+  closeShop() {
+    const modal = document.getElementById("modal-shop");
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  openInventory() {
+    const quizScreen = document.getElementById("screen-quiz");
+    if (!quizScreen?.classList.contains("active")) return;
+    UIManager.renderInventory(GameState.state);
+    const modal = document.getElementById("modal-inventory");
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+  }
+
+  closeInventory() {
+    const modal = document.getElementById("modal-inventory");
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  purchaseSupply(itemId) {
+    if (this.purchaseInProgress) return false;
+    const item = SUPPLY_ITEMS[itemId];
+    if (!item) return false;
+    const now = Date.now();
+    if (now - (this.lastPurchaseAt[itemId] || 0) < 500) return false;
+
+    this.purchaseInProgress = true;
+    try {
+      const state = GameState.state;
+      if (state.balance < item.price) {
+        UIManager.showToast(
+          "SALDO TIDAK MENCUKUPI",
+          `Kamu membutuhkan ${UIManager.formatCurrency(item.price)} untuk membeli ${item.name}.`,
+          "danger"
+        );
+        AudioManager.playWarning();
+        return false;
+      }
+
+      state.balance -= item.price;
+      state.inventory[itemId] = (state.inventory[itemId] || 0) + 1;
+      this.lastPurchaseAt[itemId] = now;
+      StorageManager.saveGame(state);
+      UIManager.updateHeader(state);
+      UIManager.showToast("PEMBELIAN BERHASIL", `${item.name} ditambahkan ke inventaris.`, "normal");
+      AudioManager.playClick();
+      return true;
+    } finally {
+      this.purchaseInProgress = false;
+    }
+  }
+
+  useSupplyItem(itemId) {
+    const state = GameState.state;
+    const quizScreen = document.getElementById("screen-quiz");
+    const question = state.levelQuestions[state.currentQuestionIndex];
+
+    if (!quizScreen?.classList.contains("active") || this.isAnsweringLocked ||
+        state.currentQuestionAnswered || !question) {
+      UIManager.showToast("PERLENGKAPAN TIDAK TERSEDIA", "Gunakan item saat soal kuis aktif dan belum dijawab.", "danger");
+      return false;
+    }
+
+    if (!SUPPLY_ITEMS[itemId]) return false;
+    if ((state.inventory[itemId] || 0) < 1) {
+      UIManager.showToast("STOK HABIS", "Item ini tidak tersedia di inventaris.", "danger");
+      return false;
+    }
+
+    if (itemId === "recoveryKit") {
+      if (state.lives >= 3) {
+        UIManager.showToast("NYAWA SUDAH PENUH", "Recovery Kit hanya dapat digunakan saat nyawa kurang dari 3.", "danger");
+        return false;
+      }
+      state.inventory[itemId]--;
+      state.lives = Math.min(3, state.lives + 1);
+      UIManager.updateHeader(state);
+      UIManager.showToast("RECOVERY KIT DIGUNAKAN", `1 nyawa dipulihkan (${state.lives}/3 ❤️).`, "normal");
+    } else if (itemId === "timeToken") {
+      state.inventory[itemId]--;
+      state.timer += 15;
+      UIManager.updateTimerUI(state.timer, Boolean(state.isTimerPaused));
+      UIManager.showToast("TIME EXTENSION AKTIF", `Timer soal bertambah 15 detik (${state.timer} detik).`, "normal");
+    } else if (itemId === "threatScanner") {
+      const wrongOptions = question.options
+        .map((_, index) => index)
+        .filter(index => index !== question.answer)
+        .filter(index => {
+          const button = document.getElementById(`option-btn-${index}`);
+          return button && !button.disabled;
+        });
+      if (wrongOptions.length === 0) {
+        UIManager.showToast("TIDAK ADA TARGET", "Semua pilihan salah sudah dieliminasi.", "danger");
+        return false;
+      }
+      const target = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
+      state.inventory[itemId]--;
+      this.eliminateAnswerOption(target, "THREAT SCANNER");
+      UIManager.showToast("THREAT SCANNER AKTIF", "Satu pilihan yang salah telah dieliminasi.", "normal");
+    } else if (itemId === "encryptionShield") {
+      if (state.activeShield) {
+        UIManager.showToast("ENCRYPTION SHIELD AKTIF", "Shield akan mencegah kehilangan satu nyawa berikutnya.", "normal");
+        return false;
+      }
+      state.activeShield = true;
+      UIManager.showToast("ENCRYPTION SHIELD AKTIF", "Shield akan mencegah kehilangan satu nyawa berikutnya.", "normal");
+    } else if (itemId === "forensicAnalyzer") {
+      state.inventory[itemId]--;
+      const principle = question.principle || "Data Protection";
+      UIManager.showToast(
+        "FORENSIC ANALYZER",
+        `Petunjuk: tinjau prinsip ${principle} dan pilih tindakan yang paling melindungi data warga.`,
+        "normal"
+      );
+    }
+
+    StorageManager.saveGame(state);
+    UIManager.updateHeader(state);
+    UIManager.renderInventory(state);
+    return true;
+  }
+
+  eliminateAnswerOption(index, source) {
+    const button = document.getElementById(`option-btn-${index}`);
+    if (!button || button.disabled) return;
+    button.classList.add("option-eliminated");
+    button.disabled = true;
+    const text = button.querySelector(".option-text");
+    if (text) {
+      text.innerHTML = `<s>${text.textContent}</s> <span class="option-eliminated-tag">[ELIMINATED BY ${source}]</span>`;
     }
   }
 
@@ -661,15 +836,7 @@ class GameController {
 
     const eliminated = wrongIndices.slice(0, 2);
     eliminated.forEach(idx => {
-      const btn = document.getElementById(`option-btn-${idx}`);
-      if (btn) {
-        btn.classList.add("option-eliminated");
-        btn.disabled = true;
-        const textSpan = btn.querySelector(".option-text");
-        if (textSpan) {
-          textSpan.innerHTML = `<s>${textSpan.textContent}</s> <span class="option-eliminated-tag">[ELIMINATED BY AUDIT LOG]</span>`;
-        }
-      }
+      this.eliminateAnswerOption(idx, "AUDIT LOG");
     });
 
     UIManager.updatePowerUps(state);
@@ -830,8 +997,20 @@ class GameController {
       // Only listen when quiz screen is active
       const quizScreen = document.getElementById("screen-quiz");
       const isQuizActive = quizScreen && quizScreen.classList.contains("active");
+      const shopModal = document.getElementById("modal-shop");
+      const inventoryModal = document.getElementById("modal-inventory");
+      const isSupplyPanelOpen = shopModal?.classList.contains("active") ||
+        inventoryModal?.classList.contains("active");
       const feedbackModal = document.getElementById("modal-feedback");
       const isFeedbackActive = feedbackModal && feedbackModal.classList.contains("active");
+      if (isSupplyPanelOpen) {
+        if (e.code === "Escape") {
+          e.preventDefault();
+          if (shopModal?.classList.contains("active")) this.closeShop();
+          if (inventoryModal?.classList.contains("active")) this.closeInventory();
+        }
+        return;
+      }
       if (isFeedbackActive && (e.code === "Space" || e.code === "Enter")) {
         e.preventDefault();
         this.advanceQuestion();

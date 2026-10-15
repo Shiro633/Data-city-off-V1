@@ -5,6 +5,64 @@
 
 const DISTRICT_ORDER = ["hospital", "eshop", "school", "restaurant"];
 
+const ECONOMY_CONFIG = {
+  startingBalance: 0,
+  payments: {
+    easy: 10000,
+    medium: 20000,
+    hard: 35000
+  },
+  levelDifficulty: {
+    hospital: { 1: "easy", 2: "medium", 3: "hard" },
+    eshop: { 1: "easy", 2: "medium", 3: "hard" },
+    school: { 1: "medium", 2: "hard", 3: "hard" },
+    restaurant: { 1: "medium", 2: "hard", 3: "hard" }
+  }
+};
+
+const SUPPLY_ITEMS = {
+  recoveryKit: {
+    id: "recoveryKit",
+    name: "Emergency Recovery Kit",
+    icon: "🩹",
+    price: 20000,
+    description: "Perlengkapan medis darurat untuk Officer.",
+    effect: "Pulihkan 1 nyawa saat nyawa kurang dari 3."
+  },
+  timeToken: {
+    id: "timeToken",
+    name: "Time Extension Token",
+    icon: "⏱️",
+    price: 15000,
+    description: "Tambahan waktu untuk menganalisis insiden.",
+    effect: "Tambahkan 15 detik ke timer soal saat ini."
+  },
+  threatScanner: {
+    id: "threatScanner",
+    name: "Threat Scanner",
+    icon: "📡",
+    price: 25000,
+    description: "Memindai opsi jawaban untuk menemukan distraksi.",
+    effect: "Eliminasi 1 pilihan jawaban yang salah."
+  },
+  encryptionShield: {
+    id: "encryptionShield",
+    name: "Encryption Shield",
+    icon: "🛡️",
+    price: 30000,
+    description: "Firewall pribadi untuk mencegah satu dampak kesalahan.",
+    effect: "Aktifkan perlindungan; cegah kehilangan 1 nyawa berikutnya."
+  },
+  forensicAnalyzer: {
+    id: "forensicAnalyzer",
+    name: "Forensic Analyzer",
+    icon: "🔬",
+    price: 35000,
+    description: "Analisis forensik untuk memahami inti skenario.",
+    effect: "Tampilkan prinsip keamanan data sebagai petunjuk tambahan."
+  }
+};
+
 const DISTRICTS_CONFIG = {
   hospital: {
     id: "hospital",
@@ -19,7 +77,9 @@ const DISTRICTS_CONFIG = {
       level1Title: "Pendaftaran Pasien Baru",
       level1Desc: "Aturan minimisasi data dan hak akses data medis",
       level2Title: "Perlindungan Data Pasien",
-      level2Desc: "Enkripsi, audit log, penanganan ransomware & pembagian data"
+      level2Desc: "Enkripsi, audit log, penanganan ransomware & pembagian data",
+      level3Title: "Audit Klinis & Respons Insiden",
+      level3Desc: "Investigasi kebocoran rekam medis, pemulihan, dan ketahanan layanan"
     },
     badge: "Medical Data Guardian",
     badgeIcon: "🩺"
@@ -37,7 +97,9 @@ const DISTRICTS_CONFIG = {
       level1Title: "Transaksi Pelanggan",
       level1Desc: "Pengumpulan data pembayaran, privasi lokasi & CVV",
       level2Title: "Menghadapi Ancaman Siber",
-      level2Desc: "Serangan SQLi, Brute Force, Phishing & HTTPS"
+      level2Desc: "Serangan SQLi, Brute Force, Phishing & HTTPS",
+      level3Title: "Resiliensi Transaksi & Anti-Fraud",
+      level3Desc: "Amankan akun penjual, refund, integrasi pembayaran, dan respons fraud"
     },
     badge: "Cyber Commerce Shield",
     badgeIcon: "💳"
@@ -55,7 +117,9 @@ const DISTRICTS_CONFIG = {
       level1Title: "Pendaftaran Siswa Baru",
       level1Desc: "Data sensitif, biometrik, dan hak privasi anak",
       level2Title: "Melindungi Data Sekolah",
-      level2Desc: "Keamanan cloud, phishing, akun admin & sanitasi harddisk"
+      level2Desc: "Keamanan cloud, phishing, akun admin & sanitasi harddisk",
+      level3Title: "Tanggap Insiden Akademik",
+      level3Desc: "Pulihkan sistem belajar dan lindungi siswa setelah insiden data"
     },
     badge: "Campus Privacy Defender",
     badgeIcon: "🎓"
@@ -73,7 +137,9 @@ const DISTRICTS_CONFIG = {
       level1Title: "Program Loyalitas Pelanggan",
       level1Desc: "Minimisasi data member, izin aplikasi & opt-out SMS",
       level2Title: "Keamanan Jaringan Restoran",
-      level2Desc: "Segmentasi Wi-Fi tamu, password default & respon insiden"
+      level2Desc: "Segmentasi Wi-Fi tamu, password default & respon insiden",
+      level3Title: "Operasi Restoran Tangguh",
+      level3Desc: "Lindungi pemesanan, integrasi POS, akun staf, dan pemulihan data"
     },
     badge: "Hospitality Security Chief",
     badgeIcon: "🍴"
@@ -109,6 +175,18 @@ const INITIAL_STATE = {
   isTimerPaused: false,
   timerFrozenUntil: null,
 
+  balance: ECONOMY_CONFIG.startingBalance,
+  inventory: {
+    recoveryKit: 0,
+    timeToken: 0,
+    threatScanner: 0,
+    encryptionShield: 0,
+    forensicAnalyzer: 0
+  },
+  paidLevels: [],
+  paymentHistory: [],
+  activeShield: false,
+
   powerUps: {
     auditLog: 1,
     encryption: 1
@@ -121,26 +199,34 @@ const INITIAL_STATE = {
   districts: {
     hospital: {
       unlocked: true,
+      levels: [false, false, false],
       level1Complete: false,
       level2Complete: false,
+      level3Complete: false,
       security: 20
     },
     eshop: {
       unlocked: false,
+      levels: [false, false, false],
       level1Complete: false,
       level2Complete: false,
+      level3Complete: false,
       security: 20
     },
     school: {
       unlocked: false,
+      levels: [false, false, false],
       level1Complete: false,
       level2Complete: false,
+      level3Complete: false,
       security: 20
     },
     restaurant: {
       unlocked: false,
+      levels: [false, false, false],
       level1Complete: false,
       level2Complete: false,
+      level3Complete: false,
       security: 20
     }
   },
@@ -247,8 +333,28 @@ class GameStateManager {
     DISTRICT_ORDER.forEach((key, index) => {
       const district = this.state.districts[key];
       if (!district) return;
-      district.unlocked = index === 0 || Boolean(this.state.districts[DISTRICT_ORDER[index - 1]]?.level2Complete);
+      const previousDistrict = this.state.districts[DISTRICT_ORDER[index - 1]];
+      district.unlocked = index === 0 || district.unlocked ||
+        Boolean(previousDistrict && previousDistrict.levels[2]);
     });
+  }
+
+  isLevelComplete(districtKey, level) {
+    return Boolean(this.state.districts[districtKey]?.levels?.[level - 1]);
+  }
+
+  isStageComplete(districtKey) {
+    const levels = this.state.districts[districtKey]?.levels;
+    return Array.isArray(levels) && levels.length === 3 && levels.every(Boolean);
+  }
+
+  markLevelComplete(districtKey, level) {
+    const district = this.state.districts[districtKey];
+    if (!district || level < 1 || level > 3) return false;
+    district.levels[level - 1] = true;
+    district[`level${level}Complete`] = true;
+    district.security = Math.max(district.security, Math.round(level / 3 * 100));
+    return this.isStageComplete(districtKey);
   }
 
   load(saved) {
@@ -263,7 +369,7 @@ class GameStateManager {
     if (saved.currentDistrict && DISTRICTS_CONFIG[saved.currentDistrict]) {
       this.state.currentDistrict = saved.currentDistrict;
     }
-    if (saved.currentLevel === 1 || saved.currentLevel === 2) {
+    if (Number.isInteger(saved.currentLevel) && saved.currentLevel >= 1 && saved.currentLevel <= 3) {
       this.state.currentLevel = saved.currentLevel;
     }
     const savedQuestionIds = saved.levelQuestionIds;
@@ -286,7 +392,7 @@ class GameStateManager {
       this.state.currentQuestionAnswered = false;
     }
     if (Number.isInteger(saved.lives)) this.state.lives = Math.max(0, Math.min(3, saved.lives));
-    if (Number.isFinite(saved.timer)) this.state.timer = Math.max(0, Math.min(90, saved.timer));
+    if (Number.isFinite(saved.timer)) this.state.timer = Math.max(0, Math.min(900, saved.timer));
     if (Number.isFinite(saved.currentLevelScore)) this.state.currentLevelScore = Math.max(0, saved.currentLevelScore);
     if (Number.isFinite(saved.currentLevelSpeedBonus)) {
       this.state.currentLevelSpeedBonus = Math.max(0, saved.currentLevelSpeedBonus);
@@ -299,7 +405,25 @@ class GameStateManager {
     }
     if (saved.completedDistricts) this.state.completedDistricts = saved.completedDistricts;
     if (saved.districts) {
-      this.state.districts = { ...this.state.districts, ...saved.districts };
+      DISTRICT_ORDER.forEach(key => {
+        const savedDistrict = saved.districts[key];
+        if (!savedDistrict) return;
+        const district = this.state.districts[key];
+        if (Array.isArray(savedDistrict.levels)) {
+          district.levels = [0, 1, 2].map(index => Boolean(savedDistrict.levels[index]));
+        } else {
+          district.levels = [
+            Boolean(savedDistrict.level1Complete),
+            Boolean(savedDistrict.level2Complete),
+            Boolean(savedDistrict.level3Complete)
+          ];
+        }
+        district.level1Complete = district.levels[0];
+        district.level2Complete = district.levels[1];
+        district.level3Complete = district.levels[2];
+        district.unlocked = Boolean(savedDistrict.unlocked);
+        district.security = Math.max(20, Math.round(district.levels.filter(Boolean).length / 3 * 100));
+      });
     }
     this.updateDistrictUnlocks();
     if (saved.score) {
@@ -310,6 +434,32 @@ class GameStateManager {
     if (saved.settings) {
       this.state.settings = { ...this.state.settings, ...saved.settings };
     }
+    if (Number.isFinite(saved.balance)) this.state.balance = Math.max(0, Math.floor(saved.balance));
+    if (saved.inventory && typeof saved.inventory === "object") {
+      Object.keys(this.state.inventory).forEach(itemId => {
+        const quantity = saved.inventory[itemId];
+        if (Number.isFinite(quantity)) {
+          this.state.inventory[itemId] = Math.max(0, Math.floor(quantity));
+        }
+      });
+    }
+    if (Array.isArray(saved.paidLevels)) {
+      this.state.paidLevels = [...new Set(saved.paidLevels.filter(levelId =>
+        typeof levelId === "string" &&
+        DISTRICT_ORDER.some(district =>
+          levelId === `${district}-level-1` ||
+          levelId === `${district}-level-2` ||
+          levelId === `${district}-level-3`
+        )
+      ))];
+    }
+    if (Array.isArray(saved.paymentHistory)) {
+      this.state.paymentHistory = saved.paymentHistory.filter(payment =>
+        payment && typeof payment.levelId === "string" &&
+        Number.isFinite(payment.amount) && payment.amount > 0
+      );
+    }
+    this.state.activeShield = Boolean(saved.activeShield && this.state.inventory.encryptionShield > 0);
     if (saved.achievements && Array.isArray(saved.achievements)) {
       this.state.achievements.forEach(ach => {
         const found = saved.achievements.find(s => s.id === ach.id);
@@ -324,11 +474,9 @@ class GameStateManager {
     } else {
       this.state.powerUps = { auditLog: 1, encryption: 1 };
     }
-    const completedMissions = ["hospital", "eshop", "school", "restaurant"].reduce((count, key) => {
-      const district = this.state.districts[key];
-      return count + Number(district.level1Complete) + Number(district.level2Complete);
-    }, 0);
-    this.state.citySecurity = Number((completedMissions * 12.5).toFixed(1));
+    const completedMissions = DISTRICT_ORDER.reduce((count, key) =>
+      count + this.state.districts[key].levels.filter(Boolean).length, 0);
+    this.state.citySecurity = Number((completedMissions / 12 * 100).toFixed(1));
   }
 
   getRank(baseScore) {
@@ -341,4 +489,6 @@ class GameStateManager {
 
 window.DISTRICTS_CONFIG = DISTRICTS_CONFIG;
 window.DISTRICT_ORDER = DISTRICT_ORDER;
+window.ECONOMY_CONFIG = ECONOMY_CONFIG;
+window.SUPPLY_ITEMS = SUPPLY_ITEMS;
 window.GameState = new GameStateManager();

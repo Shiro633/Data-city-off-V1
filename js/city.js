@@ -11,6 +11,7 @@ const CityWorld = {
   camera: { x: 0, y: 0 },
   keys: new Set(),
   touchKeys: new Set(),
+  dragControl: null,
   paused: false,
   dialogue: null,
   pendingMission: null,
@@ -43,6 +44,11 @@ const CityWorld = {
     window.addEventListener("resize", () => this.resize());
     window.addEventListener("keydown", event => this.onKeyDown(event));
     window.addEventListener("keyup", event => this.onKeyUp(event));
+    this.canvas.addEventListener("pointerdown", event => this.startDragControl(event));
+    this.canvas.addEventListener("pointermove", event => this.updateDragControl(event));
+    this.canvas.addEventListener("pointerup", event => this.stopDragControl(event));
+    this.canvas.addEventListener("pointercancel", event => this.stopDragControl(event));
+    this.canvas.addEventListener("lostpointercapture", event => this.stopDragControl(event));
     document.querySelectorAll("[data-move]").forEach(button => {
       const direction = button.dataset.move;
       button.addEventListener("pointerdown", event => {
@@ -100,6 +106,7 @@ const CityWorld = {
     this.paused = false;
     this.keys.clear();
     this.touchKeys.clear();
+    this.dragControl = null;
     this.updateHud();
     this.renderMinimap();
     UIManager.showScreen("city");
@@ -126,6 +133,7 @@ const CityWorld = {
 
   onKeyDown(event) {
     if (!document.getElementById("screen-city").classList.contains("active")) return;
+    if (document.querySelector(".modal-overlay.active")) return;
     const key = event.key.toLowerCase();
     const directions = { arrowup: "up", w: "up", arrowdown: "down", s: "down", arrowleft: "left", a: "left", arrowright: "right", d: "right" };
     if (directions[key]) {
@@ -151,6 +159,37 @@ const CityWorld = {
     if (directions[key]) this.keys.delete(directions[key]);
   },
 
+  startDragControl(event) {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    if (!document.getElementById("screen-city").classList.contains("active") ||
+        this.paused || this.dialogue ||
+        !document.getElementById("city-briefing-shade").hidden ||
+        document.querySelector(".modal-overlay.active")) return;
+
+    event.preventDefault();
+    this.dragControl = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      x: event.clientX,
+      y: event.clientY
+    };
+    this.canvas.classList.add("is-dragging");
+    this.canvas.setPointerCapture(event.pointerId);
+  },
+
+  updateDragControl(event) {
+    if (!this.dragControl || event.pointerId !== this.dragControl.pointerId) return;
+    this.dragControl.x = event.clientX;
+    this.dragControl.y = event.clientY;
+  },
+
+  stopDragControl(event) {
+    if (!this.dragControl || (event && event.pointerId !== this.dragControl.pointerId)) return;
+    this.dragControl = null;
+    this.canvas.classList.remove("is-dragging");
+  },
+
   togglePause(force) {
     const shade = document.getElementById("city-pause-shade");
     if (typeof force === "boolean") this.paused = force;
@@ -159,6 +198,7 @@ const CityWorld = {
     if (this.paused) {
       this.keys.clear();
       this.touchKeys.clear();
+      this.stopDragControl();
     }
   },
 
@@ -177,6 +217,15 @@ const CityWorld = {
   update(delta) {
     let dx = Number(this.keys.has("right") || this.touchKeys.has("right")) - Number(this.keys.has("left") || this.touchKeys.has("left"));
     let dy = Number(this.keys.has("down") || this.touchKeys.has("down")) - Number(this.keys.has("up") || this.touchKeys.has("up"));
+    if (this.dragControl) {
+      const dragX = this.dragControl.x - this.dragControl.startX;
+      const dragY = this.dragControl.y - this.dragControl.startY;
+      const dragLength = Math.hypot(dragX, dragY);
+      if (dragLength > 10) {
+        dx += dragX / dragLength;
+        dy += dragY / dragLength;
+      }
+    }
     if (dx || dy) {
       const length = Math.hypot(dx, dy);
       dx /= length;
@@ -261,14 +310,15 @@ const CityWorld = {
   openNpcDialogue(npc) {
     const config = DISTRICTS_CONFIG[npc.district];
     const district = GameState.state.districts[npc.district];
-    const missionLevel = district.level1Complete ? (district.level2Complete ? 0 : 2) : 1;
+    const missionLevel = district.levels.findIndex(complete => !complete) + 1;
+    const isStageComplete = GameState.isStageComplete(npc.district);
     const lines = [
       config.briefing.quote,
-      missionLevel === 0
+      isStageComplete
         ? `Terima kasih, Officer. ${config.name} sekarang aman.`
-        : `Bantu kami menyelesaikan misi "${missionLevel === 1 ? config.briefing.level1Title : config.briefing.level2Title}".`
+        : `Bantu kami menyelesaikan misi "${this.levelTitle(npc.district, missionLevel)}".`
     ];
-    this.dialogue = { npc, lines, index: 0, missionLevel };
+    this.dialogue = { npc, lines, index: 0, missionLevel: isStageComplete ? 0 : missionLevel };
     const shade = document.getElementById("city-dialog-shade");
     shade.hidden = false;
     document.getElementById("city-dialog-avatar").textContent = npc.avatar;
@@ -299,9 +349,9 @@ const CityWorld = {
     actions.replaceChildren();
     if (last && missionLevel) {
       const district = GameState.state.districts[npc.district];
-      [1, 2].forEach(level => {
-        const completed = level === 1 ? district.level1Complete : district.level2Complete;
-        const locked = !district.unlocked || (level === 2 && !district.level1Complete);
+      [1, 2, 3].forEach(level => {
+        const completed = GameState.isLevelComplete(npc.district, level);
+        const locked = !district.unlocked || (level > 1 && !GameState.isLevelComplete(npc.district, level - 1));
         const button = document.createElement("button");
         button.type = "button";
         button.className = "btn-primary";
@@ -318,7 +368,7 @@ const CityWorld = {
     if (last && !missionLevel) {
       const done = document.createElement("span");
       done.className = "city-district-done";
-      done.textContent = "✓ DISTRICT SECURED";
+      done.textContent = "✓ STAGE SECURED";
       actions.appendChild(done);
     }
   },
@@ -344,13 +394,18 @@ const CityWorld = {
     document.getElementById("city-dialog-shade").hidden = true;
   },
 
+  levelTitle(districtKey, level) {
+    const briefing = DISTRICTS_CONFIG[districtKey].briefing;
+    return [briefing.level1Title, briefing.level2Title, briefing.level3Title][level - 1];
+  },
+
   showMissionBriefing(districtKey, level) {
     const config = DISTRICTS_CONFIG[districtKey];
     this.pendingMission = { districtKey, level };
     document.getElementById("city-dialog-shade").hidden = true;
     document.getElementById("city-briefing-icon").textContent = config.icon;
     document.getElementById("city-briefing-district").textContent = `${config.name.replace(" District", "").toUpperCase()} SECURITY`;
-    document.getElementById("city-briefing-title").textContent = level === 1 ? config.briefing.level1Title : config.briefing.level2Title;
+    document.getElementById("city-briefing-title").textContent = this.levelTitle(districtKey, level);
     document.getElementById("city-briefing-shade").hidden = false;
   },
 
@@ -382,11 +437,11 @@ const CityWorld = {
     const order = DISTRICT_ORDER;
     for (const key of order) {
       const progress = GameState.state.districts[key];
-      if (!progress.level1Complete || !progress.level2Complete) {
+      const nextLevel = progress.levels.findIndex(complete => !complete) + 1;
+      if (nextLevel > 0) {
         const location = this.locations.find(item => item.id === key);
         const npc = this.npcs.find(item => item.district === key);
-        const mission = progress.level1Complete ? DISTRICTS_CONFIG[key].briefing.level2Title : DISTRICTS_CONFIG[key].briefing.level1Title;
-        return `${progress.level1Complete ? "Return to" : "Visit"} ${location.label} and talk to ${npc.name} — ${mission}.`;
+        return `Stage ${order.indexOf(key) + 1}: ${progress.levels.slice(0, nextLevel - 1).some(Boolean) ? "Return to" : "Visit"} ${location.label} and talk to ${npc.name} — Level ${nextLevel}: ${this.levelTitle(key, nextLevel)}.`;
       }
     }
     return "All districts secured. Data City is safe!";
@@ -566,7 +621,7 @@ const CityWorld = {
   drawNpc(ctx, npc, timestamp) {
     const bob = Math.sin(timestamp / 280 + npc.x) * 2;
     const progress = GameState.state.districts[npc.district];
-    const marker = progress.level2Complete ? "✓" : "!";
+    const marker = GameState.isStageComplete(npc.district) ? "✓" : "!";
     ctx.fillStyle = "rgba(15,36,47,.22)";
     ctx.beginPath(); ctx.ellipse(npc.x, npc.y + 29, 19, 8, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = "#29384d";
@@ -605,7 +660,8 @@ const CityWorld = {
   },
 
   drawPlayer(ctx, timestamp) {
-    const isWalking = this.keys.size || this.touchKeys.size;
+    const isWalking = this.keys.size || this.touchKeys.size || this.dragControl &&
+      Math.hypot(this.dragControl.x - this.dragControl.startX, this.dragControl.y - this.dragControl.startY) > 10;
     const walking = isWalking ? Math.sin(timestamp / 65) * 3 : 0;
     const armSwing = isWalking ? Math.sin(timestamp / 65 + Math.PI / 2) * 5 : 0;
     ctx.fillStyle = "rgba(10,25,40,.25)";

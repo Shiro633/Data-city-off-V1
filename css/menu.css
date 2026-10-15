@@ -434,8 +434,8 @@ input:checked+.slider:before {
 
 .briefing-levels-preview {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 12px;
   margin-top: 10px;
 }
 
@@ -449,6 +449,9 @@ input:checked+.slider:before {
   gap: 8px;
   cursor: pointer;
   transition: all var(--transition-normal);
+  text-align: left;
+  color: var(--text-main);
+  font: inherit;
 }
 
 .level-card-option:hover:not(.locked) {

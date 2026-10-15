@@ -151,6 +151,66 @@ function bindUIEvents() {
     });
   }
 
+  const shopOpenBtn = document.getElementById("btn-open-shop");
+  if (shopOpenBtn) {
+    shopOpenBtn.addEventListener("click", () => {
+      AudioManager.playClick();
+      GameEngine.openShop();
+    });
+  }
+
+  const shopCloseButtons = [
+    document.getElementById("btn-close-shop"),
+    document.getElementById("btn-shop-back")
+  ];
+  shopCloseButtons.forEach(button => {
+    if (button) {
+      button.addEventListener("click", () => {
+        AudioManager.playClick();
+        GameEngine.closeShop();
+      });
+    }
+  });
+
+  const shopItemGrid = document.getElementById("shop-item-grid");
+  if (shopItemGrid) {
+    shopItemGrid.addEventListener("click", event => {
+      const button = event.target.closest("[data-buy-item]");
+      if (!button) return;
+      GameEngine.purchaseSupply(button.dataset.buyItem);
+    });
+  }
+
+  const inventoryOpenBtn = document.getElementById("btn-open-inventory");
+  if (inventoryOpenBtn) {
+    inventoryOpenBtn.addEventListener("click", () => {
+      AudioManager.playClick();
+      GameEngine.openInventory();
+    });
+  }
+
+  const inventoryCloseButtons = [
+    document.getElementById("btn-close-inventory"),
+    document.getElementById("btn-inventory-back")
+  ];
+  inventoryCloseButtons.forEach(button => {
+    if (button) {
+      button.addEventListener("click", () => {
+        AudioManager.playClick();
+        GameEngine.closeInventory();
+      });
+    }
+  });
+
+  const inventoryList = document.getElementById("inventory-item-list");
+  if (inventoryList) {
+    inventoryList.addEventListener("click", event => {
+      const button = event.target.closest("[data-use-item]");
+      if (!button || button.disabled) return;
+      GameEngine.useSupplyItem(button.dataset.useItem);
+    });
+  }
+
   // Splash Screen -> Enter Menu
   const splashBtn = document.getElementById("btn-splash-enter");
   if (splashBtn) {
@@ -288,21 +348,13 @@ function bindUIEvents() {
     });
   }
 
-  // Briefing Modal: Level 1 Start
-  const lvl1Btn = document.getElementById("briefing-lvl1-btn");
-  if (lvl1Btn) {
-    lvl1Btn.addEventListener("click", () => {
+  const briefingLevelList = document.getElementById("briefing-levels-list");
+  if (briefingLevelList) {
+    briefingLevelList.addEventListener("click", event => {
+      const button = event.target.closest("[data-briefing-level]");
+      if (!button || button.disabled) return;
       AudioManager.playClick();
-      GameEngine.startLevel(1);
-    });
-  }
-
-  // Briefing Modal: Level 2 Start
-  const lvl2Btn = document.getElementById("briefing-lvl2-btn");
-  if (lvl2Btn) {
-    lvl2Btn.addEventListener("click", () => {
-      AudioManager.playClick();
-      GameEngine.startLevel(2);
+      GameEngine.startLevel(Number(button.dataset.briefingLevel));
     });
   }
 

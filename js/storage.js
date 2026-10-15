@@ -47,6 +47,11 @@ const StorageManager = {
         currentLevelSpeedBonus: data.currentLevelSpeedBonus,
         currentLevelStartXP: data.currentLevelStartXP,
         stats: data.stats,
+        balance: Number.isFinite(data.balance) ? Math.max(0, Math.floor(data.balance)) : 0,
+        inventory: data.inventory || {},
+        paidLevels: Array.isArray(data.paidLevels) ? data.paidLevels : [],
+        paymentHistory: Array.isArray(data.paymentHistory) ? data.paymentHistory : [],
+        activeShield: Boolean(data.activeShield),
         completedDistricts: data.completedDistricts || [],
         districts: data.districts,
         score: {

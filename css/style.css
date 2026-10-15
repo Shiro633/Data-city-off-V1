@@ -186,20 +186,39 @@ body {
   letter-spacing: 2px;
 }
 
+.wallet-pill {
+  color: var(--emerald);
+  border-color: rgba(0, 240, 144, 0.3);
+  white-space: nowrap;
+}
+
 .header-controls {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
+.header-shop-button {
+  padding: 8px 12px;
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 @media (max-width: 680px) {
   .game-header {
-    padding: 10px 12px;
-    min-height: 58px;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    padding: 8px 12px;
+    min-height: 78px;
+    gap: 5px 8px;
   }
 
   .header-brand {
+    grid-column: 1;
+    grid-row: 1;
     gap: 8px;
     min-width: 0;
     flex: 1;
@@ -218,6 +237,39 @@ body {
     line-height: 1.2;
   }
 
+  .header-controls {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 6px;
+  }
+
+  .header-controls .btn-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .header-shop-button {
+    padding: 7px 9px;
+    font-size: 0.72rem;
+  }
+
+  .header-stats {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .header-stats .stat-pill {
+    padding: 4px 8px;
+    gap: 5px;
+    font-size: 0.75rem;
+  }
+
+  #header-speed-val {
+    display: none;
+  }
+
   .brand-subtitle {
     font-size: 0.52rem;
     letter-spacing: 0.12em;
@@ -225,7 +277,7 @@ body {
 
   .header-stats {
     gap: 8px;
-    justify-content: flex-end;
+    justify-content: center;
     flex-shrink: 0;
   }
 
@@ -236,7 +288,7 @@ body {
   }
 
   .header-controls {
-    display: none;
+    display: flex;
   }
 }
 
@@ -549,6 +601,262 @@ button:disabled,
   flex-direction: column;
   gap: 10px;
   pointer-events: none;
+}
+
+.shop-modal-card {
+  max-width: 980px;
+  max-height: min(92vh, 900px);
+}
+
+.shop-header {
+  gap: 16px;
+}
+
+.shop-header .modal-title {
+  line-height: 1.25;
+}
+
+.shop-subtitle,
+.inventory-help {
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.shop-balance-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 22px 10px;
+  padding: 13px 16px;
+  background: rgba(0, 240, 144, 0.08);
+  border: 1px solid rgba(0, 240, 144, 0.3);
+  border-radius: var(--radius-md);
+}
+
+.shop-balance-bar span,
+.shop-inventory-summary > span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.shop-balance-bar strong {
+  color: var(--emerald);
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+}
+
+.shop-inventory-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 0 22px 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.shop-inventory-summary b {
+  color: var(--text-main);
+  font-size: 0.75rem;
+}
+
+.shop-item-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 0 22px 20px;
+}
+
+.shop-item-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 16px;
+  background: linear-gradient(150deg, rgba(22, 34, 59, 0.95), rgba(10, 14, 23, 0.9));
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.shop-item-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: 10px;
+  background: rgba(0, 242, 254, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1.7rem;
+}
+
+.shop-item-card h3 {
+  color: var(--text-main);
+  font-size: 0.98rem;
+  line-height: 1.3;
+}
+
+.shop-item-description,
+.shop-item-effect {
+  margin-top: 7px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.shop-item-effect {
+  min-height: 46px;
+  color: #c7d2e2;
+}
+
+.shop-item-effect strong {
+  color: var(--cyan);
+  font-size: 0.7rem;
+}
+
+.shop-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px;
+  margin: auto 0 12px;
+  padding-top: 10px;
+  font-size: 0.72rem;
+}
+
+.shop-item-price {
+  color: var(--emerald);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+.shop-item-meta > span {
+  color: var(--text-muted);
+}
+
+.shop-buy-button {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 0.8rem;
+}
+
+.shop-footer {
+  flex-shrink: 0;
+}
+
+.inventory-modal-card {
+  max-width: 640px;
+}
+
+.inventory-item-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.inventory-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.inventory-item-icon {
+  font-size: 1.5rem;
+}
+
+.inventory-item-info {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.inventory-item-info strong {
+  font-size: 0.82rem;
+}
+
+.inventory-item-info strong span {
+  color: var(--cyan);
+}
+
+.inventory-item-info small {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.inventory-use-button {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  font-size: 0.7rem;
+}
+
+@media (max-width: 760px) {
+  .shop-item-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .shop-modal-card .modal-header {
+    padding: 15px;
+  }
+
+  .shop-modal-card .modal-title {
+    font-size: 0.98rem;
+  }
+
+  .shop-balance-bar {
+    margin: 13px 14px 9px;
+    padding: 10px 12px;
+  }
+
+  .shop-inventory-summary {
+    margin: 0 14px 12px;
+  }
+
+  .shop-item-grid {
+    gap: 9px;
+    padding: 0 14px 16px;
+  }
+
+  .shop-item-card {
+    padding: 11px;
+  }
+
+  .shop-item-card h3 {
+    font-size: 0.84rem;
+  }
+
+  .shop-item-effect {
+    min-height: 65px;
+  }
+
+  .shop-footer {
+    padding: 12px 14px;
+  }
+
+  .inventory-item {
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .inventory-item-info strong {
+    font-size: 0.72rem;
+  }
+
+  .inventory-use-button {
+    padding: 6px;
+  }
 }
 
 .toast {

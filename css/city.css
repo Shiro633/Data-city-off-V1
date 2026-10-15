@@ -25,7 +25,11 @@
   width: 100%;
   height: 100%;
   touch-action: none;
+  cursor: grab;
+  user-select: none;
 }
+
+#city-canvas.is-dragging { cursor: grabbing; }
 
 .city-hud {
   position: absolute;

@@ -771,7 +771,7 @@ const ADDITIONAL_QUESTION_BANKS = [
       ["Pengelola toko menerima email mendesak yang meminta kata sandi panel admin.", "Bagaimana permintaan itu seharusnya ditangani?", "Verifikasi melalui kanal resmi dan jangan pernah mengirim kata sandi lewat email.", "Phishing sering menyamar sebagai permintaan mendesak untuk mencuri kredensial.", "Phishing Prevention"],
       ["Halaman checkout masih dapat dibuka menggunakan HTTP.", "Apa perbaikan yang melindungi data selama sesi pelanggan?", "Terapkan HTTPS/TLS untuk seluruh situs dan alihkan HTTP ke HTTPS.", "TLS melindungi data yang dikirim antara browser dan layanan.", "HTTPS"],
       ["Pengembang menemukan kata sandi basis data tertulis di berkas sumber yang dipublikasikan.", "Apa tindakan yang harus segera dilakukan?", "Cabut dan rotasi kredensial, lalu simpan rahasia di pengelola rahasia.", "Rahasia yang terekspos harus dianggap telah diketahui pihak lain.", "Secrets Management"],
-      ["Situs memakai pustaka pembayaran yang memiliki kerentanan kritis.", "Apa langkah pemeliharaan yang tepat?", "Perbarui ke versi aman setelah pengujian dan pantau advisori keamanan.", "Pembaruan terverifikasi menutup kerentanan yang diketahui.", "Vulnerability Management"],
+      ["Situs memakai pustaka pembayaran yang memiliki kerentanan kritis.", "Bagaimana tim e-commerce memelihara pustaka pembayaran yang rentan?", "Perbarui ke versi aman setelah pengujian dan pantau advisori keamanan.", "Pembaruan terverifikasi menutup kerentanan yang diketahui.", "Vulnerability Management"],
       ["Log aplikasi mencatat nomor kartu lengkap untuk memudahkan debugging.", "Apa yang perlu dilakukan pada pencatatan tersebut?", "Hentikan pencatatan data kartu dan redaksi data sensitif dari log.", "Log operasional tidak boleh menjadi salinan baru data pembayaran sensitif.", "Secure Logging"],
       ["Pegawai layanan pelanggan membutuhkan akses untuk memeriksa status pesanan.", "Bagaimana hak akses akun pegawai sebaiknya diberikan?", "Berikan peran terbatas pada status pesanan dan catat setiap akses.", "Peran terbatas sesuai tugas mengurangi risiko penyalahgunaan.", "Least Privilege"],
       ["Akun admin toko hanya dilindungi kata sandi.", "Kontrol autentikasi tambahan apa yang disarankan?", "Aktifkan autentikasi multifaktor untuk semua akun administratif.", "MFA menambah lapisan perlindungan bila kata sandi dicuri.", "Multi-Factor Authentication"],
@@ -806,7 +806,7 @@ const ADDITIONAL_QUESTION_BANKS = [
       ["Sekolah mengumpulkan alamat rumah lengkap padahal layanan hanya berupa buletin digital.", "Bagaimana formulir perlu disesuaikan?", "Hapus alamat rumah jika tidak diperlukan untuk mengirim buletin.", "Alamat fisik tidak dibutuhkan untuk layanan yang sepenuhnya digital.", "Data Minimization"],
       ["Siswa meminta nama panggilan digunakan saat dipanggil di kelas.", "Apa pendekatan yang menghormati privasi dan kebutuhan siswa?", "Catat preferensi yang relevan secara terbatas dan bagikan hanya kepada staf terkait.", "Informasi preferensi perlu digunakan secara terbatas dan sesuai kebutuhan.", "Purpose Limitation"],
       ["Sekolah ingin membagikan daftar peserta lomba kepada penyelenggara eksternal.", "Data apa yang sebaiknya dikirim?", "Hanya data pendaftaran yang diminta dan diperlukan penyelenggara.", "Penyelenggara tidak memerlukan seluruh berkas siswa.", "Data Minimization"],
-      ["Formulir siswa mencantumkan akun media sosial pribadi sebagai syarat wajib.", "Apa yang sebaiknya dilakukan sekolah?", "Jadikan opsional atau hapus jika akun itu tidak diperlukan untuk pendidikan.", "Akun pribadi tidak relevan sebagai syarat umum pendaftaran siswa.", "Data Minimization"]
+      ["Formulir siswa mencantumkan akun media sosial pribadi sebagai syarat wajib.", "Bagaimana sekolah sebaiknya menangani permintaan akun media sosial pribadi siswa?", "Jadikan opsional atau hapus jika akun itu tidak diperlukan untuk pendidikan.", "Akun pribadi tidak relevan sebagai syarat umum pendaftaran siswa.", "Data Minimization"]
     ]
   },
   {
@@ -874,12 +874,12 @@ const ADDITIONAL_QUESTION_BANKS = [
       ["Router restoran menggunakan kata sandi admin bawaan pabrik.", "Apa langkah pengamanan pertama?", "Ganti dengan kata sandi unik yang kuat dan batasi akses administrasi router.", "Kredensial bawaan mudah ditebak dan sering diketahui publik.", "Default Credential Security"],
       ["Terminal POS mengirim informasi transaksi ke layanan cloud.", "Bagaimana koneksi tersebut harus dilindungi?", "Gunakan TLS/HTTPS dan verifikasi sertifikat layanan tujuan.", "TLS melindungi data dalam perjalanan dari penyadapan dan manipulasi.", "In-Transit Encryption"],
       ["Tablet kasir ditinggalkan tanpa pengawasan dengan akun aktif.", "Kontrol perangkat apa yang mengurangi risiko akses fisik?", "Aktifkan kunci layar otomatis dan kunci perangkat saat ditinggalkan.", "Kunci layar mencegah orang sekitar memakai sesi kasir yang terbuka.", "Physical Security"],
-      ["Akun admin sistem POS dipakai beberapa pegawai dengan kata sandi yang sama.", "Apa perbaikan yang tepat?", "Buat akun individual, gunakan MFA, dan berikan hak akses sesuai peran.", "Akun individual memungkinkan atribusi aktivitas dan kontrol akses.", "Identity & Access Management"],
+      ["Akun admin sistem POS dipakai beberapa pegawai dengan kata sandi yang sama.", "Bagaimana akses admin POS sebaiknya diberikan kepada tiap pegawai?", "Buat akun individual, gunakan MFA, dan berikan hak akses sesuai peran.", "Akun individual memungkinkan atribusi aktivitas dan kontrol akses.", "Identity & Access Management"],
       ["Wi-Fi tamu restoran tidak memerlukan isolasi antarperangkat.", "Apa pengaturan yang mengurangi risiko serangan dari satu pelanggan ke pelanggan lain?", "Aktifkan isolasi klien pada jaringan tamu dan batasi akses ke jaringan internal.", "Isolasi mencegah perangkat tamu saling menjangkau dan mencapai POS.", "Wi-Fi Security"],
       ["Perangkat POS lama tidak lagi menerima pembaruan keamanan.", "Apa rencana yang bertanggung jawab?", "Ganti atau isolasi perangkat dan susun migrasi ke sistem yang didukung.", "Perangkat usang rentan karena kerentanan baru tidak lagi diperbaiki.", "Vulnerability Management"],
       ["Pegawai menerima lampiran email yang mengaku sebagai faktur pemasok.", "Apa tindakan yang aman sebelum membuka lampiran?", "Verifikasi pengirim melalui kontak yang dikenal dan laporkan pesan mencurigakan.", "Verifikasi mencegah lampiran berbahaya menginfeksi perangkat restoran.", "Phishing Prevention"],
       ["Data akun admin cloud restoran diduga dicuri.", "Apa tindakan segera untuk membatasi akses penyerang?", "Cabut sesi aktif, rotasi kredensial, aktifkan MFA, dan investigasi log.", "Pencabutan sesi dan rotasi kredensial menahan pengambilalihan akun.", "Incident Response"],
-      ["Router restoran memakai firmware dengan kerentanan yang telah diperbaiki vendor.", "Apa langkah pemeliharaan yang tepat?", "Perbarui firmware dari sumber resmi setelah menguji konfigurasi dan konektivitas.", "Pembaruan resmi menutup kerentanan yang diketahui.", "Patch Management"],
+      ["Router restoran memakai firmware dengan kerentanan yang telah diperbaiki vendor.", "Bagaimana firmware router restoran diperbarui dengan aman?", "Perbarui firmware dari sumber resmi setelah menguji konfigurasi dan konektivitas.", "Pembaruan resmi menutup kerentanan yang diketahui.", "Patch Management"],
       ["Restoran menyimpan cadangan konfigurasi POS di komputer kasir yang sama.", "Bagaimana cadangan seharusnya dilindungi?", "Simpan salinan terenkripsi terpisah dengan akses terbatas dan uji pemulihan.", "Cadangan terpisah membantu pemulihan jika perangkat kasir gagal atau diserang.", "Backup Security"],
       ["Mesin POS mengirim log yang memuat nomor kartu ke layanan pemantauan.", "Apa perubahan yang perlu dilakukan?", "Redaksi data pembayaran dari log sebelum dikirim atau disimpan.", "Log sebaiknya tidak mengandung data kartu sensitif.", "Secure Logging"],
       ["Wi-Fi tamu menggunakan kata sandi yang sama selama bertahun-tahun.", "Bagaimana akses tamu dikelola lebih aman?", "Gunakan kredensial tamu yang diganti berkala atau portal akses dengan isolasi jaringan.", "Rotasi kredensial dan isolasi mengurangi penyalahgunaan akses lama.", "Wi-Fi Security"],
@@ -888,6 +888,329 @@ const ADDITIONAL_QUESTION_BANKS = [
     ]
   }
 ];
+
+ADDITIONAL_QUESTION_BANKS.push(
+  {
+    district: "hospital", level: 1,
+    distractors: [
+      "Minta seluruh data tersedia agar formulir terlihat lengkap",
+      "Jadikan pemberian data opsional sebagai syarat semua layanan",
+      "Simpan salinan identitas pasien pada perangkat pribadi petugas"
+    ],
+    questions: [
+      ["Pasien hanya ingin memesan jadwal kontrol melalui telepon.", "Data apa yang paling relevan untuk mencocokkan jadwal?", "Nama atau nomor rekam medis dan waktu yang diminta.", "Pencocokan janji tidak memerlukan rincian kesehatan yang tidak terkait.", "Data Minimization"],
+      ["Petugas mengirim kode verifikasi ke telepon pasien saat pendaftaran.", "Bagaimana kode satu kali itu sebaiknya diperlakukan?", "Gunakan hanya untuk verifikasi saat itu dan jangan mencatatnya sebagai kata sandi.", "Kode autentikasi bersifat sementara dan rahasia.", "Authentication Security"],
+      ["Formulir meminta agama pasien untuk semua jenis kunjungan tanpa alasan layanan.", "Apa tinjauan yang patut dilakukan?", "Nilai apakah ada tujuan layanan atau kewajiban yang relevan sebelum mengumpulkannya.", "Informasi sensitif memerlukan tujuan yang jelas dan pembatasan.", "Sensitive Data Minimization"],
+      ["Pasien mengisi nomor telepon pada komputer bersama di lobi.", "Apa yang perlu dilakukan aplikasi setelah formulir dikirim?", "Hapus isian dari layar dan sesi agar pengunjung berikutnya tidak melihatnya.", "Perangkat publik tidak boleh mempertahankan data pasien sebelumnya.", "Privacy by Design"],
+      ["Petugas menyalin informasi alergi pasien untuk layanan klinis.", "Siapa yang seharusnya dapat melihat catatan tersebut?", "Tenaga kesehatan yang terlibat dan memerlukannya untuk perawatan.", "Akses dibatasi pada orang dengan kebutuhan kerja yang sah.", "Need to Know"],
+      ["Rumah sakit meminta tanggal lahir untuk mencegah tertukarnya rekam medis.", "Bagaimana pasien diberi tahu tentang kolom tersebut?", "Jelaskan tujuan pencocokan identitas dan gunakan hanya untuk tujuan itu.", "Transparansi menjelaskan alasan pengumpulan data.", "Transparency"],
+      ["Pasien mengisi formulir pada tablet pendaftaran lalu pergi.", "Kontrol apa yang mencegah data tertinggal di perangkat?", "Akhiri sesi dan bersihkan data lokal setelah pengiriman berhasil.", "Pembersihan sesi mengurangi pengungkapan kepada pengguna berikutnya.", "Session Security"],
+      ["Petugas ingin memotret kartu pasien dengan ponsel pribadinya untuk mempercepat antrean.", "Apa tindakan yang benar?", "Gunakan pemindai rumah sakit yang disetujui atau masukkan data minimum secara aman.", "Salinan pada perangkat pribadi menghilangkan kendali organisasi atas data.", "Device Security"],
+      ["Pasien meminta komunikasi hasil janji melalui email, tetapi alamatnya belum diverifikasi.", "Apa yang sebaiknya dilakukan sebelum mengirim rincian pasien?", "Verifikasi alamat dan gunakan kanal yang disetujui dengan isi minimum.", "Salah alamat dan pesan terbuka dapat mengungkap data kesehatan.", "Secure Communication"],
+      ["Klinik menambah kolom nomor kontak darurat pada formulir semua pasien.", "Bagaimana kebutuhan kolom ini dinilai?", "Kumpulkan hanya bila relevan untuk jenis pelayanan dan jelaskan penggunaannya.", "Kontak darurat tidak selalu diperlukan untuk setiap kunjungan.", "Purpose Limitation"]
+    ]
+  },
+  {
+    district: "hospital", level: 2,
+    distractors: [
+      "Bagikan satu akun dokter ke seluruh unit agar akses lebih cepat",
+      "Kirim kata sandi dan data pasien melalui grup percakapan umum",
+      "Matikan pencatatan akses agar pengguna tidak terganggu"
+    ],
+    questions: [
+      ["Perawat sementara menggantikan staf pada unit lain selama satu sif.", "Bagaimana akses rekam medisnya diberikan?", "Berikan akses sementara sesuai pasien dan tugas selama sif.", "Akses berbatas waktu mengurangi hak yang tertinggal setelah penugasan.", "Just-in-Time Access"],
+      ["Dokter menerima notifikasi login EHR yang tidak ia lakukan.", "Bagaimana dokter menangani notifikasi login EHR yang tidak dikenali?", "Tolak permintaan, laporkan, lalu amankan akun melalui kanal resmi.", "Persetujuan login yang tidak dikenal bisa memberi penyerang akses klinis.", "MFA Fatigue Defense"],
+      ["Laporan pasien dikirim ke alamat email mitra yang salah.", "Bagaimana rumah sakit merespons salah kirim laporan pasien?", "Segera laporkan insiden, minta penerima mengamankan atau menghapus salinan, dan ikuti prosedur insiden.", "Pelaporan cepat mendukung pembatasan dan penilaian dampak.", "Incident Response"],
+      ["Vendor perlu memelihara server rekam medis.", "Bagaimana akses vendor dibatasi?", "Gunakan akun bernama, akses sementara yang diawasi, dan catat aktivitasnya.", "Akun individual dan pengawasan memberi akuntabilitas.", "Third-Party Access"],
+      ["Staf mengunduh daftar pasien ke laptop untuk bekerja saat kunjungan.", "Kontrol apa yang perlu diterapkan?", "Gunakan perangkat terkelola terenkripsi dan simpan hanya data minimum yang diperlukan.", "Data portabel mudah hilang sehingga memerlukan kontrol perangkat.", "Endpoint Security"],
+      ["Pimpinan meminta ekspor semua rekam medis untuk membuat statistik layanan.", "Apa cara aman memenuhi kebutuhan statistik?", "Gunakan data agregat atau de-identifikasi bila identitas pasien tidak diperlukan.", "Menghapus pengenal mengurangi risiko pada analisis populasi.", "De-identification"],
+      ["Pembaruan EHR meminta administrator menggunakan akun pribadi yang sama dengan akun harian.", "Apa praktik yang lebih aman?", "Pisahkan akun administrasi, gunakan MFA, dan batasi sesi istimewa.", "Akun terpisah mengurangi dampak kompromi akun rutin.", "Privileged Access"],
+      ["Database cadangan pasien dipulihkan untuk latihan pemulihan.", "Apa yang perlu dipastikan sebelum latihan?", "Gunakan lingkungan terisolasi dengan akses terbatas dan data uji bila memungkinkan.", "Salinan pemulihan tetap mengandung data sensitif.", "Backup Isolation"],
+      ["Sistem mencatat diagnosis lengkap pada log pemecahan masalah.", "Bagaimana log pemecahan masalah EHR harus diperbaiki?", "Redaksi identitas dan rincian klinis dari log yang tidak memerlukannya.", "Log operasional juga perlu menerapkan minimisasi data.", "Secure Logging"],
+      ["Rekam medis kertas harus dikirim ke arsip di gedung lain.", "Bagaimana pengiriman dilakukan?", "Gunakan wadah tertutup, serah terima tercatat, dan akses petugas yang berwenang.", "Pengamanan fisik dan rantai penguasaan mencegah kehilangan dokumen.", "Physical Security"]
+    ]
+  },
+  {
+    district: "hospital", level: 3,
+    distractors: [
+      "Hapus log dan perangkat segera agar layanan terlihat normal",
+      "Kirim seluruh basis data pasien kepada semua kepala unit",
+      "Bayar pengirim pesan sebelum memverifikasi insiden"
+    ],
+    questions: [
+      ["Server klinik menampilkan catatan bahwa berkas pasien dienkripsi oleh ransomware.", "Apa langkah awal tim respons?", "Isolasi server terdampak tanpa mematikan bukti, lalu aktifkan prosedur insiden.", "Isolasi membatasi penyebaran sambil menjaga bukti untuk investigasi.", "Ransomware Response"],
+      ["Petugas menemukan USB tak dikenal terpasang di komputer ruang perawat.", "Bagaimana petugas menangani USB tak dikenal di komputer ruang perawat?", "Jangan membuka isinya; amankan perangkat dan laporkan kepada tim keamanan.", "USB tak dikenal dapat menjadi media malware atau eksfiltrasi.", "Removable Media Security"],
+      ["Tim forensik perlu menyalin disk server yang diduga membocorkan data.", "Bagaimana integritas bukti dijaga?", "Buat salinan forensik, catat hash, waktu, pengambil, dan setiap serah terima.", "Hash dan rantai penguasaan membantu membuktikan bukti tidak berubah.", "Digital Forensics"],
+      ["Rumah sakit melihat kueri massal rekam medis dari satu akun staf pada dini hari.", "Bagaimana aktivitas ini ditangani?", "Tangguhkan sesi secara proporsional, simpan log, dan verifikasi dengan pemilik akun.", "Pola tidak biasa perlu dibatasi dan diselidiki tanpa menghapus bukti.", "Anomaly Detection"],
+      ["Sistem laboratorium tidak tersedia setelah pembaruan gagal.", "Apa prioritas pemulihan?", "Aktifkan prosedur kesinambungan layanan dan pulihkan dari cadangan teruji.", "Pemulihan terencana menjaga pelayanan sekaligus integritas data.", "Business Continuity"],
+      ["Cadangan EHR terakhir dibuat enam bulan lalu dan tidak pernah diuji.", "Apa tindakan perbaikan jangka panjang?", "Buat cadangan berkala yang terpisah dan uji pemulihan serta konsistensi datanya.", "Cadangan yang belum diuji belum terbukti dapat memulihkan layanan.", "Backup & Recovery"],
+      ["Rumah sakit mempertimbangkan memberi tahu pasien tentang dugaan akses ilegal.", "Informasi apa yang harus menjadi dasar notifikasi?", "Fakta terverifikasi, jenis data terdampak, langkah perlindungan, dan kanal bantuan.", "Notifikasi yang jelas membantu pasien merespons risiko nyata.", "Breach Notification"],
+      ["Penyerang mengaku memiliki hasil pemeriksaan pasien dan meminta uang.", "Apa yang sebaiknya dilakukan pimpinan?", "Jangan bernegosiasi sendiri; libatkan tim respons, legal, dan otoritas sesuai prosedur.", "Keputusan terkoordinasi menghindari tindakan yang memperburuk insiden.", "Incident Governance"],
+      ["Tim memulihkan server klinis dari cadangan setelah malware dibersihkan.", "Kontrol apa yang harus dilakukan sebelum sistem kembali online?", "Verifikasi sumber pemulihan, pasang pembaruan, rotasi kredensial, dan uji integritas.", "Pemulihan harus memastikan penyebab kompromi tidak ikut dipulihkan.", "Secure Recovery"],
+      ["Satu akun dokter digunakan untuk mengekspor ribuan catatan tanpa alasan klinis.", "Bagaimana investigasi menentukan cakupan akses?", "Korelasikan audit log, waktu, perangkat, pasien, dan hak akses akun tersebut.", "Korelasi bukti menunjukkan catatan mana yang benar-benar diakses.", "Audit & Accountability"],
+      ["Media penyimpanan rusak berisi hasil radiologi yang akan dikembalikan ke vendor.", "Bagaimana media diproses?", "Hapus secara kriptografis atau musnahkan dengan metode terverifikasi sebelum keluar.", "Penghapusan terverifikasi mencegah pemulihan data pasien oleh pihak lain.", "Media Sanitization"],
+      ["Dokter menggunakan layanan berbagi berkas konsumen untuk mengirim CT scan.", "Apa alternatif yang tepat?", "Gunakan portal rujukan rumah sakit yang disetujui dengan penerima terverifikasi.", "Portal terkelola memberi kontrol akses dan audit yang sesuai.", "Secure Data Exchange"],
+      ["Petugas menerima telepon seseorang yang mengaku keluarga pasien dan meminta diagnosis.", "Bagaimana identitas peminta diperiksa?", "Verifikasi identitas dan kewenangan melalui prosedur resmi sebelum mengungkapkan apa pun.", "Hubungan keluarga saja tidak otomatis membuktikan hak akses.", "Identity Verification"],
+      ["Vendor EHR meminta dump produksi untuk memperbaiki bug.", "Apa yang lebih aman diberikan?", "Reproduksi masalah dengan data sintetis atau data yang telah di-de-identifikasi.", "Lingkungan uji tidak perlu memuat identitas pasien sebenarnya.", "Data Minimization"],
+      ["Tim respons menemukan token akses API klinis di repositori kode publik.", "Apa tindakan segera?", "Cabut dan rotasi token, periksa log penggunaan, lalu pindahkan rahasia ke penyimpanan aman.", "Kredensial yang terekspos harus dianggap telah dikompromikan.", "Secrets Management"],
+      ["Serangan membuat jadwal klinik berubah dan pasien menerima pesan palsu.", "Bagaimana kanal komunikasi dipulihkan?", "Verifikasi sistem pengirim, hentikan pesan palsu, dan umumkan kanal resmi alternatif.", "Pasien perlu mengetahui sumber informasi yang tepercaya.", "Crisis Communication"],
+      ["Klinik harus menjalankan pendaftaran manual selama jaringan pulih.", "Bagaimana formulir darurat dilindungi?", "Catat data minimum, simpan terkunci, batasi petugas, dan masukkan ke sistem dengan aman setelah pulih.", "Prosedur darurat tetap harus melindungi kerahasiaan dan akurasi.", "Downtime Procedure"],
+      ["Log menunjukkan unduhan rekam medis terus terjadi setelah akun dinonaktifkan.", "Apa yang perlu diperiksa?", "Cabut sesi dan token aktif, lalu periksa akun layanan atau kunci lain yang terkait.", "Menonaktifkan akun saja belum tentu membatalkan semua kredensial aktif.", "Session Revocation"],
+      ["Rumah sakit ingin menghitung pasien terdampak setelah akses tak sah.", "Data apa yang harus dipakai?", "Audit log dan bukti forensik yang tervalidasi dengan periode serta kriteria jelas.", "Penilaian cakupan harus dapat ditelusuri dan tidak sekadar perkiraan.", "Forensic Scoping"],
+      ["Penyerang masuk melalui akun yang tidak memakai MFA.", "Perbaikan pencegahan mana yang paling relevan?", "Wajibkan MFA tahan phishing untuk akses jarak jauh dan akun istimewa.", "MFA kuat mengurangi risiko kata sandi curian digunakan kembali.", "Phishing-Resistant MFA"],
+      ["Staf membagikan foto layar pasien melalui grup internal yang terlalu luas.", "Apa koreksi yang diperlukan?", "Hentikan pembagian, gunakan kanal klinis terbatas, dan laporkan pengungkapan sesuai prosedur.", "Kanal internal tetap berisiko bila penerimanya tidak memiliki kebutuhan.", "Internal Data Sharing"],
+      ["Setelah pemulihan, rumah sakit perlu memastikan layanan dan data akurat.", "Uji apa yang perlu dilakukan?", "Validasi integritas rekam medis, kontrol akses, konektivitas, dan alur klinis sebelum operasi penuh.", "Pemulihan teknis belum cukup tanpa validasi keselamatan layanan.", "Recovery Validation"],
+      ["Perangkat medis terhubung menjalankan sistem operasi yang tidak lagi didukung.", "Bagaimana risikonya dikelola bila perangkat belum dapat diganti?", "Segmentasikan perangkat, batasi komunikasi, pantau anomali, dan rencanakan penggantian.", "Kontrol kompensasi membatasi eksposur sampai pembaruan tersedia.", "Network Segmentation"],
+      ["Tim komunikasi hendak menyebut nama pasien tertentu dalam siaran pers insiden.", "Apa prinsip yang harus dipakai?", "Jangan mengungkap identitas pasien; sampaikan informasi agregat yang diperlukan.", "Komunikasi publik harus tetap menjaga privasi individu.", "Confidentiality"],
+      ["Seorang pegawai melaporkan ia mengklik lampiran mencurigakan pada komputer klinis.", "Apa yang harus dilakukan setelah lampiran mencurigakan dibuka di komputer klinis?", "Laporkan segera, putuskan koneksi sesuai prosedur, dan jangan menghapus bukti atau mencoba memperbaiki sendiri.", "Pelaporan dini memberi tim kesempatan membatasi dampak dan menginvestigasi.", "Malware Incident Response"],
+      ["Akun pemasok cloud memiliki hak administrator permanen untuk dukungan.", "Bagaimana hak ini seharusnya diubah?", "Gunakan persetujuan per sesi, hak minimum, batas waktu, dan rekaman aktivitas.", "Akses istimewa sementara mengurangi peluang penyalahgunaan jangka panjang.", "Vendor Least Privilege"],
+      ["Audit menemukan salinan ekspor pasien tertinggal di folder bersama setelah proyek selesai.", "Tindakan penutupan proyek apa yang diperlukan?", "Hapus salinan sesuai retensi, verifikasi penghapusan, dan cabut akses proyek.", "Penutupan mencakup data turunan dan akses yang tidak lagi dibutuhkan.", "Data Lifecycle"],
+      ["Rumah sakit menilai apakah proses pemulihan siap menghadapi pemadaman panjang.", "Latihan apa yang memberi bukti kesiapan?", "Simulasikan skenario, ukur target waktu pemulihan, lalu catat dan tindak lanjuti kekurangan.", "Latihan menguji prosedur dan ketergantungan nyata sebelum krisis.", "Disaster Recovery Testing"],
+      ["Bukti awal menunjukkan data pasien mungkin telah dilihat, tetapi belum diunduh.", "Bagaimana status insiden sebaiknya dinilai?", "Bedakan akses, akuisisi, dan eksfiltrasi berdasarkan log serta bukti yang tersedia.", "Istilah yang tepat mencegah klaim terlalu luas atau menyesatkan.", "Evidence-Based Assessment"],
+      ["Sebuah sistem penting dipulihkan tetapi administrator belum mengganti kata sandi layanan.", "Risiko apa yang masih tersisa?", "Kredensial lama yang diketahui penyerang dapat dipakai untuk masuk kembali.", "Rotasi rahasia pascainsiden menutup jalur akses yang mungkin masih aktif.", "Credential Rotation"]
+    ]
+  },
+  {
+    district: "eshop", level: 1,
+    distractors: [
+      "Simpan CVV setelah transaksi untuk memudahkan pembelian berikutnya",
+      "Wajibkan pelanggan mengirim kata sandi lewat formulir dukungan",
+      "Kumpulkan data kartu keluarga meski tidak diperlukan untuk pembayaran"
+    ],
+    questions: [
+      ["Pelanggan membeli barang dan memilih kartu sebagai metode pembayaran.", "Informasi sensitif apa yang tidak boleh disimpan setelah otorisasi?", "Kode verifikasi kartu (CVV/CVC).", "Kode keamanan kartu tidak boleh disimpan setelah transaksi diotorisasi.", "Payment Card Security"],
+      ["Toko menawarkan notifikasi promosi setelah checkout.", "Bagaimana pilihan pemasaran diberikan?", "Jadikan persetujuan promosi opsional dan terpisah dari penyelesaian pesanan.", "Pembelian tidak boleh bergantung pada persetujuan untuk tujuan lain.", "Consent"],
+      ["Alamat pengiriman pelanggan dimasukkan untuk pesanan satu kali.", "Berapa lama alamat tersebut disimpan?", "Sesuai kebutuhan pemenuhan, kewajiban yang berlaku, dan kebijakan retensi yang dijelaskan.", "Retensi dibatasi menurut tujuan dan kewajiban yang sah.", "Data Retention"],
+      ["Pelanggan ingin mengembalikan barang dan agen layanan meminta foto kartu pembayaran penuh.", "Apa data yang sebaiknya dipakai untuk memverifikasi transaksi?", "Referensi pesanan atau detail transaksi yang disamarkan.", "Nomor kartu penuh tidak diperlukan untuk mengidentifikasi pesanan.", "Data Minimization"],
+      ["Checkout menawarkan menyimpan kartu untuk pembelian berikutnya.", "Bagaimana toko sebaiknya menangani pilihan ini?", "Minta persetujuan eksplisit dan gunakan token penyedia pembayaran, bukan nomor kartu mentah.", "Tokenisasi menghindari penyimpanan rincian kartu langsung di toko.", "Tokenization"],
+      ["Formulir checkout meminta tanggal lahir pelanggan untuk mengirim paket biasa.", "Apa yang sebaiknya dilakukan?", "Hapus kolom bila tidak ada tujuan transaksi yang sah dan diperlukan.", "Usia pelanggan tidak relevan bagi sebagian besar pengiriman.", "Purpose Limitation"],
+      ["Pelanggan memasukkan alamat email dengan salah ketik.", "Bagaimana toko mencegah detail pesanan dikirim ke orang lain?", "Verifikasi alamat atau tampilkan konfirmasi sebelum mengirim informasi pesanan.", "Kesalahan alamat dapat mengungkap rincian pembelian.", "Data Accuracy"],
+      ["Toko meminta pelanggan mengunggah identitas untuk semua transaksi bernilai kecil.", "Bagaimana kebijakan ini dinilai?", "Batasi verifikasi identitas pada kasus yang memang memerlukan pemeriksaan tersebut.", "Pengumpulan identitas harus sebanding dengan risiko dan tujuan.", "Proportionality"],
+      ["Pelanggan mengisi alamat rumah pada perangkat umum di gerai.", "Perlindungan apa yang seharusnya diterapkan?", "Hapus data sesi lokal setelah transaksi dan jangan menyimpan isian pada browser bersama.", "Data checkout dapat tertinggal dan terlihat oleh pengguna berikutnya.", "Shared Device Privacy"],
+      ["Toko ingin membagikan daftar pembeli kepada merek mitra.", "Apa langkah yang benar sebelum berbagi?", "Tentukan dasar dan tujuan yang jelas, beri pemberitahuan, dan batasi data yang dibagikan.", "Pembagian untuk tujuan pemasaran baru memerlukan transparansi dan dasar yang sesuai.", "Third-Party Sharing"]
+    ]
+  },
+  {
+    district: "eshop", level: 2,
+    distractors: [
+      "Nonaktifkan HTTPS agar halaman checkout memuat lebih cepat",
+      "Izinkan kueri basis data menyusun SQL langsung dari masukan",
+      "Gunakan akun administrator bersama untuk semua agen"
+    ],
+    questions: [
+      ["Endpoint pencarian pesanan menyisipkan teks pelanggan langsung ke perintah SQL.", "Perbaikan utama apa yang mencegah injeksi?", "Gunakan kueri berparameter dan validasi masukan sesuai konteks.", "Parameter memisahkan data masukan dari sintaks kueri.", "SQL Injection Prevention"],
+      ["Pelanggan memakai ulang kata sandi yang bocor di situs lain.", "Kontrol login apa yang menambah perlindungan?", "Aktifkan MFA dan deteksi kredensial yang diketahui telah bocor.", "MFA dan pemeriksaan kata sandi bocor menghambat pengambilalihan akun.", "Account Security"],
+      ["Halaman pembayaran hanya menggunakan HTTP pada jaringan kafe.", "Apa perubahan yang wajib dilakukan?", "Lindungi seluruh sesi checkout menggunakan HTTPS dengan konfigurasi TLS yang benar.", "TLS melindungi data saat transit dari penyadapan dan perubahan.", "Transport Security"],
+      ["Agen dukungan menerima pesan pelanggan berisi nomor kartu lengkap.", "Bagaimana informasi itu ditangani?", "Jangan menyalinnya ke tiket; hapus atau redaksi sesuai prosedur pembayaran aman.", "Tiket dukungan tidak boleh menjadi tempat penyimpanan data kartu.", "Secure Support"],
+      ["Banyak login gagal terjadi pada akun pelanggan yang sama.", "Tindakan mitigasi apa yang tepat?", "Terapkan pembatasan laju, deteksi otomatis, dan verifikasi tambahan yang proporsional.", "Kontrol ini menahan percobaan otomatis tanpa membocorkan kata sandi.", "Brute Force Defense"],
+      ["Email konfirmasi pembayaran meminta pelanggan membalas dengan kata sandi.", "Bagaimana pelanggan sebaiknya memverifikasinya?", "Jangan membalas; akses toko dari alamat resmi dan laporkan pesan tersebut.", "Toko tidak membutuhkan kata sandi pelanggan melalui email.", "Phishing Awareness"],
+      ["Aplikasi pihak ketiga meminta token API untuk mengakses seluruh pesanan.", "Apa yang harus dilakukan pemilik toko?", "Batasi cakupan dan masa berlaku token pada fungsi yang diperlukan.", "Hak API minimum mengurangi dampak token yang dicuri.", "API Least Privilege"],
+      ["Operator menemukan file cadangan dengan ekspor data pelanggan dapat diakses publik.", "Apa tindakan awal?", "Cabut akses publik, amankan salinan, dan mulai penilaian serta respons insiden.", "Membatasi paparan lebih dulu menghentikan akses berkelanjutan.", "Cloud Storage Security"],
+      ["Kode promo dapat diterapkan berkali-kali karena pemeriksaan hanya di browser.", "Di mana validitas transaksi harus diperiksa?", "Validasi batas promo dan harga pada server sebelum menyelesaikan pesanan.", "Klien dapat dimanipulasi; keputusan bisnis harus ditegakkan server.", "Server-Side Validation"],
+      ["Log aplikasi e-commerce menyimpan token sesi pelanggan secara utuh.", "Bagaimana risiko ini dikurangi?", "Redaksi token dari log dan batasi akses serta masa retensi log.", "Token di log dapat digunakan untuk mengambil alih sesi.", "Session Confidentiality"]
+    ]
+  },
+  {
+    district: "eshop", level: 3,
+    distractors: [
+      "Bayar refund tanpa memeriksa transaksi sumber",
+      "Kirim semua data pelanggan ke setiap penyedia integrasi",
+      "Pertahankan akses vendor permanen tanpa pencatatan"
+    ],
+    questions: [
+      ["Sistem mendeteksi lonjakan pembelian dari banyak akun dengan kartu berbeda dan satu alamat pengiriman.", "Bagaimana tim mencegah transaksi fraud tanpa menolak semua pelanggan?", "Tahan transaksi berisiko untuk pemeriksaan berbasis sinyal dan verifikasi tambahan.", "Penilaian berbasis risiko menyeimbangkan pencegahan fraud dan layanan.", "Fraud Detection"],
+      ["Penipu menelepon agen dan mengaku pemilik akun yang kehilangan ponsel.", "Bagaimana agen memproses permintaan reset MFA?", "Gunakan verifikasi identitas yang independen dan catat proses pemulihan.", "Pemulihan akun yang lemah dapat melewati kontrol MFA.", "Account Recovery"],
+      ["Webhook pembayaran mengirim status order dua kali setelah gangguan jaringan.", "Bagaimana aplikasi mencegah pemenuhan atau tagihan ganda?", "Proses webhook secara idempoten menggunakan ID kejadian unik.", "Idempotensi menghindari efek ganda dari pengiriman ulang yang sah.", "Payment Integrity"],
+      ["Pelanggan mengklaim tidak melakukan pembayaran, sedangkan akun memiliki sesi aktif di perangkat asing.", "Apa yang perlu dilakukan dukungan?", "Amankan akun dan sesi, selidiki jejak transaksi, lalu ikuti prosedur sengketa pembayaran.", "Pemeriksaan sesi dan transaksi membantu membedakan penyalahgunaan dari kesalahan.", "Account Takeover Response"],
+      ["Kunci API gateway pembayaran ditemukan pada log build yang dapat dibaca semua pengembang.", "Bagaimana tim e-commerce merespons kunci API pembayaran yang terekspos?", "Rotasi kunci, periksa penggunaan, dan pindahkan rahasia ke secret manager.", "Kunci yang terekspos harus dianggap bocor walau belum ada penyalahgunaan.", "Secrets Management"],
+      ["Pihak eksternal meminta daftar pelanggan untuk menguji program loyalitas baru.", "Data apa yang digunakan untuk uji coba?", "Data sintetis atau terde-identifikasi dengan persetujuan dan akses yang sesuai.", "Pengujian tidak seharusnya memerlukan data pelanggan nyata.", "Privacy-Preserving Testing"],
+      ["Toko menghentikan kerja sama dengan layanan analitik.", "Apa langkah penutupan akses yang penting?", "Cabut token dan akun vendor serta minta penghapusan salinan sesuai kontrak.", "Penghentian layanan harus mengakhiri akses dan mengelola data tersisa.", "Vendor Offboarding"],
+      ["Pelanggan menghapus akun tetapi laporan pajak transaksi masih wajib disimpan.", "Bagaimana permintaan penghapusan dipenuhi?", "Hapus data yang tidak lagi diperlukan dan jelaskan pengecualian retensi yang diwajibkan.", "Hak penghapusan harus diseimbangkan dengan kewajiban retensi yang sah.", "Retention & Erasure"],
+      ["Penyerang mengganti rekening tujuan pembayaran pada profil penjual.", "Kontrol apa yang membantu mendeteksi perubahan berbahaya?", "Minta verifikasi kuat dan notifikasi ke kanal lama saat rekening pembayaran berubah.", "Pemberitahuan terpisah memberi pemilik kesempatan mengenali perubahan ilegal.", "Merchant Account Security"],
+      ["Layanan antarmuka pembayaran menerima asal domain yang tidak dikenal.", "Apa pemeriksaan konfigurasi yang tepat?", "Batasi origin, endpoint callback, dan kredensial pada domain resmi.", "Daftar origin tepercaya menahan penyalahgunaan integrasi lintas situs.", "Integration Security"],
+      ["Fraudster membuat banyak akun menggunakan alamat email sekali pakai.", "Sinyal apa yang dapat digunakan tanpa mengandalkan satu atribut saja?", "Gabungkan pola perangkat, laju pendaftaran, histori transaksi, dan verifikasi risiko.", "Sinyal gabungan lebih kuat dan lebih adil dibanding aturan tunggal.", "Risk-Based Monitoring"],
+      ["Pelanggan menghubungi akun media sosial tidak resmi yang meniru toko.", "Bagaimana toko membantu mencegah penipuan lanjutan?", "Publikasikan kanal resmi dan ajarkan pelanggan memverifikasi domain serta tidak membagikan OTP.", "Informasi resmi dan edukasi mengurangi keberhasilan impersonasi.", "Brand Impersonation"],
+      ["Tim e-commerce menemukan file konfigurasi produksi di repositori publik.", "Apa urutan respons yang sesuai?", "Batasi akses repositori, rotasi rahasia, telusuri penggunaan, dan perbaiki sumber kebocoran.", "Menghapus file saja tidak membatalkan rahasia yang sudah terekspos.", "Exposure Response"],
+      ["Refund besar diminta ke metode pembayaran baru yang tidak digunakan saat pembelian.", "Apa langkah pemeriksaan yang tepat?", "Ikuti kebijakan refund ke sumber pembayaran terverifikasi dan eskalasi pengecualian.", "Mengubah penerima refund membuka peluang pengalihan dana.", "Refund Fraud"],
+      ["Satu alamat IP mencoba menebak kata sandi pada ratusan akun.", "Bagaimana respons yang tepat terhadap pola serangan ini?", "Terapkan rate limit adaptif, deteksi bot, dan pemantauan tanpa mengunci massal akun sah.", "Mitigasi adaptif mengurangi serangan dan dampak denial-of-service terhadap pelanggan.", "Credential Stuffing Defense"],
+      ["Sertifikat TLS domain pembayaran hampir kedaluwarsa.", "Kontrol operasional apa yang mencegah gangguan?", "Pantau masa berlaku sertifikat dan lakukan perpanjangan otomatis yang teruji.", "Pemantauan mencegah putusnya layanan serta konfigurasi TLS yang tidak aman.", "Certificate Management"],
+      ["Agen ingin mengambil alih sesi pelanggan untuk melihat halaman pembayaran.", "Praktik dukungan apa yang lebih aman?", "Gunakan alat dukungan terkontrol yang menyamarkan pembayaran dan tidak menyalin rahasia sesi.", "Pengambilalihan sesi dapat membuka data dan tindakan pelanggan.", "Support Tool Security"],
+      ["Penyedia pembayaran mengirim notifikasi perubahan endpoint yang tidak diminta.", "Bagaimana keasliannya diverifikasi?", "Konfirmasi melalui portal atau kontak vendor yang sudah dikenal, bukan tautan pesan.", "Verifikasi kanal independen mengurangi risiko phishing pemasok.", "Supplier Verification"],
+      ["Penjual mengunggah file pelanggan ke layanan berbagi umum untuk mengatur pengiriman.", "Perubahan proses apa yang tepat?", "Gunakan integrasi pengiriman resmi dengan data penerima minimum dan akses terbatas.", "Kanal resmi menghindari salinan tak terkendali pada layanan publik.", "Data Processor Security"],
+      ["Situs mencurigakan memuat skrip pihak ketiga pada halaman checkout.", "Apa perlindungan yang relevan?", "Batasi skrip yang disetujui, pantau perubahan, dan gunakan kontrol integritas konten.", "Skrip berbahaya dapat membaca data pembayaran yang dimasukkan pelanggan.", "Web Supply Chain"],
+      ["Manajer menemukan staf mengekspor seluruh daftar pembeli untuk pekerjaan harian.", "Bagaimana ekspor daftar pembeli dapat dibatasi sesuai kebutuhan kerja?", "Sediakan laporan agregat atau ekspor terfilter sesuai kebutuhan peran.", "Ekspor minimum mengurangi dampak kebocoran dan penyalahgunaan internal.", "Insider Risk"],
+      ["Anomali menunjukkan checkout menerima harga nol dari permintaan yang dimodifikasi.", "Di mana harga harus ditentukan?", "Hitung dan otorisasi harga dari data produk tepercaya di server.", "Harga kiriman browser tidak boleh dianggap sebagai sumber kebenaran.", "Transaction Integrity"],
+      ["Pelanggan berbagi tangkapan layar pesanan di forum publik dan nomor telepon terlihat.", "Bagaimana tim layanan sebaiknya membantu?", "Sarankan menghapus atau menyamarkan informasi pribadi dan lanjutkan melalui kanal privat resmi.", "Nomor pesanan dan kontak dapat dipakai untuk rekayasa sosial.", "Customer Privacy"],
+      ["Dugaan kebocoran token sesi pelanggan sedang diselidiki.", "Langkah yang segera melindungi sesi aktif adalah?", "Cabut token terdampak, paksa autentikasi ulang, dan pantau pola akses lanjutan.", "Pencabutan token memutus sesi yang mungkin telah disalin penyerang.", "Session Revocation"],
+      ["Toko hendak mengirim email pemberitahuan insiden kepada pembeli terdampak.", "Bagaimana penerima dan isi pesan dilindungi?", "Gunakan daftar penerima terverifikasi, kirim satu per satu, dan hindari menampilkan alamat pelanggan lain.", "Pengumuman insiden tidak boleh menciptakan kebocoran baru.", "Breach Communication"],
+      ["Tim keamanan perlu membandingkan aktivitas pembelian sebelum dan sesudah kompromi.", "Bagaimana log transaksi dijaga agar berguna sebagai bukti?", "Batasi perubahan, sinkronkan waktu, dan simpan salinan log dengan integritas terverifikasi.", "Log tepercaya mendukung rekonstruksi urutan kejadian.", "Evidence Preservation"],
+      ["Aplikasi kasir merchant meminta izin membaca semua kontak perangkat.", "Bagaimana tim menilai permintaan itu?", "Tolak izin yang tidak diperlukan dan uji alur pembayaran dengan cakupan minimum.", "Izin perangkat berlebih membuka data yang tidak relevan terhadap pembayaran.", "Mobile App Privacy"],
+      ["Pemulihan toko setelah serangan memerlukan pemrosesan order yang tertunda.", "Bagaimana mencegah pesanan diproses dua kali?", "Rekonsiliasi dengan ledger pembayaran dan ID order unik sebelum mengulang pemrosesan.", "Rekonsiliasi menjaga konsistensi uang dan status pesanan.", "Reconciliation"],
+      ["Pemasok menolak memberi bukti bahwa ekspor pelanggan sudah dihapus.", "Apa tindak lanjut tata kelola yang tepat?", "Eskalasi kepada pemilik vendor dan legal, dokumentasikan kewajiban, dan batasi akses sampai diverifikasi.", "Penghapusan pihak ketiga perlu dapat dibuktikan dan ditindaklanjuti.", "Third-Party Assurance"],
+      ["Toko ingin memprediksi fraud dengan model otomatis yang menolak transaksi secara permanen.", "Apa kontrol keputusan yang bertanggung jawab?", "Sediakan ambang risiko, peninjauan manusia, alasan keputusan, dan jalur banding pelanggan.", "Pengawasan mencegah kesalahan model merugikan pelanggan tanpa pemulihan.", "Responsible Fraud Controls"]
+    ]
+  },
+  {
+    district: "school", level: 1,
+    distractors: [
+      "Publikasikan daftar siswa lengkap agar mudah dicari masyarakat",
+      "Minta kata sandi akun belajar sebagai bagian dari pendaftaran",
+      "Wajibkan biometrik tanpa menjelaskan pilihan atau kebutuhan"
+    ],
+    questions: [
+      ["Formulir kegiatan ekstrakurikuler meminta nomor rekening orang tua meski tidak ada biaya.", "Kolom apa yang tidak diperlukan pada formulir ekstrakurikuler tanpa biaya?", "Hapus kolom rekening yang tidak diperlukan untuk pendaftaran kegiatan.", "Informasi finansial tidak relevan bila tidak ada pembayaran.", "Data Minimization"],
+      ["Siswa baru diminta mengunggah foto untuk kartu perpustakaan.", "Bagaimana sekolah melindungi foto tersebut?", "Jelaskan tujuan, batasi akses, dan hindari pemakaian untuk publikasi tanpa izin terpisah.", "Foto siswa dapat mengidentifikasi anak dan memerlukan penggunaan terbatas.", "Student Privacy"],
+      ["Formulir meminta riwayat kesehatan siswa untuk seluruh kegiatan kelas biasa.", "Apa evaluasi yang perlu dilakukan?", "Kumpulkan hanya informasi kesehatan yang diperlukan untuk keselamatan kegiatan tertentu.", "Data kesehatan siswa sensitif dan harus sebanding dengan kebutuhan.", "Sensitive Data Minimization"],
+      ["Sekolah mengumumkan nama lengkap siswa yang mendapat konseling.", "Apa cara yang lebih menjaga privasi?", "Sampaikan informasi konseling secara pribadi kepada siswa dan wali yang berwenang.", "Pengungkapan di depan umum dapat menstigma dan melanggar kerahasiaan.", "Confidentiality"],
+      ["Orang tua meminta salinan data pendaftaran anak.", "Apa langkah sebelum menyerahkan salinan?", "Verifikasi identitas dan kewenangan wali serta gunakan kanal yang aman.", "Data anak perlu diberikan kepada pihak yang benar-benar berwenang.", "Identity Verification"],
+      ["Aplikasi tugas meminta lokasi siswa sepanjang hari.", "Apa yang harus ditinjau sekolah?", "Nonaktifkan pelacakan terus-menerus bila lokasi tidak diperlukan untuk tugas.", "Pelacakan lokasi anak berlebihan meningkatkan risiko privasi.", "Permission Minimization"],
+      ["Guru memasukkan nomor telepon wali untuk keadaan darurat.", "Penggunaan apa yang sesuai?", "Gunakan untuk komunikasi darurat yang dijelaskan dan batasi penerima internal.", "Tujuan darurat tidak otomatis membolehkan promosi atau penyebaran.", "Purpose Limitation"],
+      ["Siswa memakai komputer laboratorium untuk membuka portal nilai.", "Apa perlindungan setelah siswa selesai?", "Keluar dari akun, tutup sesi, dan hapus kredensial yang tersimpan di perangkat bersama.", "Logout mencegah pengguna berikutnya melihat nilai atau mengubah akun.", "Shared Device Security"],
+      ["Sekolah ingin memasang foto siswa pada situs publik.", "Apa tindakan sebelum publikasi?", "Dapatkan izin yang sesuai, jelaskan jangkauan publikasi, dan sediakan pilihan menolak.", "Publikasi terbuka merupakan tujuan berbeda dari administrasi sekolah.", "Consent & Student Privacy"],
+      ["Daftar kelas memuat alamat rumah dan alergi siswa lalu ditempel di pintu.", "Bagaimana informasi operasional dibagikan?", "Bagikan hanya rincian yang dibutuhkan kepada petugas terkait melalui lokasi terbatas.", "Papan umum memperluas akses data anak tanpa kebutuhan.", "Need to Know"]
+    ]
+  },
+  {
+    district: "school", level: 2,
+    distractors: [
+      "Gunakan kata sandi administrator yang sama untuk semua guru",
+      "Buka tautan email dan masukkan kredensial untuk memeriksa hadiah",
+      "Biarkan akun mantan pegawai tetap aktif untuk berjaga-jaga"
+    ],
+    questions: [
+      ["Guru menerima email yang meminta login ulang melalui halaman mirip portal sekolah.", "Apa cara aman memeriksa pesan itu?", "Buka portal melalui bookmark resmi dan laporkan email mencurigakan.", "Menghindari tautan pesan mencegah pencurian kredensial melalui situs tiruan.", "Phishing Defense"],
+      ["Akun siswa kelas enam memakai kata sandi yang sama untuk email dan game.", "Apa saran keamanan yang tepat?", "Gunakan kata sandi unik dan pengelola kata sandi yang disetujui dengan bantuan wali.", "Kata sandi unik membatasi dampak kebocoran dari layanan lain.", "Password Hygiene"],
+      ["Guru kehilangan laptop sekolah yang memuat berkas nilai.", "Apa yang harus dilakukan guru segera setelah laptop sekolah hilang?", "Laporkan segera agar perangkat dan sesi dapat dikunci atau dihapus dari jarak jauh.", "Kecepatan pelaporan membatasi akses ke berkas dan akun.", "Lost Device Response"],
+      ["Administrator membagikan akun platform belajar kepada guru pengganti.", "Bagaimana akses seharusnya diberikan?", "Buat akun individual dengan peran dan masa berlaku yang sesuai.", "Akun bernama menjaga akuntabilitas dan memudahkan pencabutan akses.", "Identity & Access Management"],
+      ["Sekolah menyimpan daftar nilai dalam lembar kerja cloud yang dapat dibuka siapa pun dengan tautan.", "Apa pengaturan yang tepat?", "Batasi akses ke akun sekolah tertentu dan nonaktifkan tautan publik.", "Pembatasan penerima mengurangi penyebaran tautan di luar sekolah.", "Cloud Access Control"],
+      ["Siswa mengirim kata sandi kepada temannya agar tugas dapat dikumpulkan.", "Bagaimana guru menangani kebiasaan ini?", "Ajarkan untuk tidak berbagi akun dan sediakan kolaborasi melalui fitur resmi.", "Akun personal membuat perubahan dan akses dapat dipertanggungjawabkan.", "Account Security"],
+      ["Komputer ruang guru masih memakai perangkat lunak lama yang rentan.", "Langkah perawatan apa yang tepat?", "Terapkan pembaruan keamanan teruji dan inventaris perangkat yang dikelola.", "Pembaruan memperbaiki kerentanan yang sudah diketahui.", "Patch Management"],
+      ["Aplikasi pembelajaran meminta akses ke mikrofon meski hanya menampilkan bacaan.", "Apa respons sekolah?", "Tolak izin yang tidak relevan dan tinjau kebutuhan aplikasi sebelum digunakan.", "Izin minimum membatasi pengumpulan data dari perangkat siswa.", "App Permissions"],
+      ["Guru menemukan flash drive hadiah tanpa pemilik di ruang kelas.", "Bagaimana guru sebaiknya menangani flash drive tanpa pemilik?", "Serahkan ke petugas TI tanpa memasukkannya ke komputer sekolah.", "Media tak dikenal dapat membawa malware ke jaringan pendidikan.", "Removable Media Security"],
+      ["Mantan guru masih dapat mengakses kelas digital setelah kontraknya selesai.", "Bagaimana akses ditangani?", "Nonaktifkan akun dan tokennya serta pindahkan kepemilikan materi secara resmi.", "Offboarding yang cepat mencegah akses setelah hubungan kerja berakhir.", "Access Revocation"]
+    ]
+  },
+  {
+    district: "school", level: 3,
+    distractors: [
+      "Unggah catatan disiplin ke grup pesan seluruh wali kelas",
+      "Setel akun siswa menjadi publik agar wali mudah menemukannya",
+      "Abaikan kejadian sampai ada orang tua yang mengeluh"
+    ],
+    questions: [
+      ["Portal sekolah menampilkan nilai seorang siswa kepada akun siswa lain.", "Apa langkah pertama petugas?", "Batasi akses yang salah, simpan bukti, dan laporkan melalui prosedur insiden sekolah.", "Pembatasan dan pelestarian bukti mencegah paparan meluas.", "Student Data Incident"],
+      ["Serangan ransomware mengunci server absensi menjelang ujian.", "Bagaimana sekolah menjaga kegiatan sambil merespons?", "Isolasi sistem terdampak dan aktifkan prosedur kesinambungan dengan catatan minimum yang aman.", "Operasi dapat berlanjut melalui proses darurat tanpa menyebarkan malware.", "Business Continuity"],
+      ["Guru menerima permintaan transfer dana dari kepala sekolah melalui email mendesak.", "Apa verifikasi yang aman?", "Konfirmasi melalui nomor atau kanal internal yang telah dikenal sebelum mengubah pembayaran.", "Verifikasi out-of-band menahan penipuan perubahan instruksi pembayaran.", "Business Email Compromise"],
+      ["Database siswa disalin untuk pemeriksaan forensik setelah akses ilegal.", "Bagaimana salinan dijaga?", "Batasi pemeriksa, buat hash, catat waktu dan serah terima, serta simpan terenkripsi.", "Kontrol bukti mendukung integritas dan privasi selama investigasi.", "Forensic Evidence"],
+      ["Akun admin sekolah digunakan dari lokasi yang tidak biasa saat malam hari.", "Apa respons yang proporsional?", "Cabut sesi mencurigakan, verifikasi pemilik akun, dan telaah log serta perubahan.", "Sesi yang berisiko dibatasi sambil investigasi berbasis bukti berlangsung.", "Account Compromise Response"],
+      ["Sekolah ingin memulihkan nilai setelah kerusakan basis data.", "Apa syarat cadangan yang layak?", "Gunakan cadangan terisolasi yang teruji dan validasi konsistensi sebelum dibuka kepada pengguna.", "Cadangan perlu aman dari serangan dan benar secara akademik.", "Backup Recovery"],
+      ["Daftar kontak siswa bocor dari penyedia aplikasi ekstrakurikuler.", "Apa tindakan tata kelola sekolah?", "Koordinasikan pembatasan, tentukan siswa terdampak, dokumentasikan insiden, dan beri notifikasi sesuai kewajiban.", "Sekolah tetap perlu mengawasi pengelolaan data oleh penyedia.", "Processor Incident Management"],
+      ["Petugas menemukan catatan konseling tercetak di mesin fotokopi umum.", "Bagaimana bukti dan dokumen ditangani?", "Amankan dokumen, catat lokasi penemuan, dan laporkan tanpa menyebarkan salinannya.", "Dokumen yang tercecer dapat menjadi pengungkapan data sensitif.", "Physical Incident Response"],
+      ["Pihak tak berwenang meminta hasil belajar melalui telepon dan menyebut dirinya wali.", "Apa prosedur yang benar?", "Verifikasi identitas serta kewenangan melalui data resmi sebelum memberikan informasi.", "Pengakuan lisan tidak cukup untuk membuka data pendidikan.", "Disclosure Verification"],
+      ["Situs sekolah disisipi tautan unduhan malware.", "Apa langkah respons web?", "Tarik situs dari layanan publik bila perlu, simpan bukti, bersihkan sumber dan verifikasi sebelum dibuka kembali.", "Menutup kanal berbahaya mencegah pengunjung terinfeksi.", "Web Incident Response"],
+      ["Sekolah mengetahui rekaman kelas daring tersimpan pada akun pribadi guru.", "Bagaimana sekolah mengelola rekaman kelas yang tersimpan di akun pribadi guru?", "Pindahkan ke penyimpanan sekolah yang disetujui, batasi akses, dan hapus salinan pribadi sesuai kebijakan.", "Akun pribadi tidak menyediakan kontrol institusi yang memadai.", "Shadow IT"],
+      ["Malware menyebar dari satu laptop ke jaringan lab komputer.", "Kontrol apa yang membatasi penyebaran lateral?", "Isolasi endpoint, segmentasikan jaringan laboratorium, dan periksa perangkat terhubung.", "Segmentasi menghambat malware mencapai sistem lain.", "Network Containment"],
+      ["Sekolah harus memberi kabar insiden kepada keluarga siswa.", "Bagaimana pesan dibuat bermanfaat dan menjaga privasi?", "Kirim secara individual melalui kanal resmi dengan fakta, langkah mitigasi, dan kontak bantuan.", "Pesan individual menghindari pengungkapan identitas keluarga lain.", "Privacy-Preserving Notification"],
+      ["Akun layanan LMS memiliki hak baca dan tulis ke seluruh sistem sekolah.", "Apa koreksi desain yang tepat?", "Pisahkan akun layanan dan batasi izin pada kelas serta operasi yang diperlukan.", "Cakupan akses sempit mengurangi dampak salah konfigurasi atau kompromi.", "Service Account Least Privilege"],
+      ["Laptop siswa hilang dan enkripsinya tidak diketahui aktif.", "Apa yang harus segera dilakukan?", "Laporkan, cabut sesi akun terkait, kunci perangkat jarak jauh, dan nilai data tersimpan.", "Tindakan cepat mengurangi risiko perangkat hilang dipakai membuka data.", "Endpoint Incident Response"],
+      ["Sekolah menemukan arsip lama data siswa yang sudah lulus tanpa jadwal retensi.", "Bagaimana arsip dikelola?", "Tentukan kewajiban retensi, hapus data yang tak lagi diperlukan secara terverifikasi, dan dokumentasikan.", "Data lama tetap menimbulkan risiko bila disimpan tanpa dasar.", "Records Retention"],
+      ["Tim IT ingin menguji filter phishing memakai kotak surat guru sebenarnya.", "Apa pendekatan yang lebih aman?", "Gunakan lingkungan simulasi dan materi uji yang tidak mengambil kredensial nyata.", "Latihan harus mendidik tanpa mengumpulkan rahasia akun.", "Security Awareness Testing"],
+      ["Log audit platform menunjukkan perubahan nilai setelah batas waktu tanpa alasan tercatat.", "Bagaimana sekolah memverifikasi perubahan nilai terlambat yang tidak memiliki alasan?", "Pertahankan log, verifikasi dengan guru berwenang, dan koreksi melalui alur akademik tercatat.", "Audit membantu membedakan koreksi sah dari perubahan tidak sah.", "Auditability"],
+      ["Sebuah aplikasi pendidikan menggunakan subkontraktor baru untuk analitik siswa.", "Apa yang perlu diperiksa sebelum integrasi?", "Tinjau tujuan, data yang dibagikan, perlindungan kontrak, dan akses subkontraktor.", "Rantai vendor dapat memperluas penerima data anak.", "Subprocessor Governance"],
+      ["Siswa mengalami pengambilalihan akun dan pesan palsu dikirim ke teman sekelas.", "Bagaimana sekolah menahan penyebaran?", "Bekukan sesi, reset kredensial lewat proses terverifikasi, dan beri tahu penerima agar mengabaikan tautan.", "Pemulihan akun dan peringatan memutus kampanye penipuan.", "Student Account Recovery"],
+      ["Cadangan sekolah terhubung dengan akun administrator yang sama seperti server produksi.", "Mengapa desain itu berisiko?", "Penyerang yang menguasai akun tersebut dapat mengenkripsi sistem dan cadangan sekaligus.", "Cadangan terisolasi membutuhkan kredensial serta jalur akses terpisah.", "Immutable Backups"],
+      ["Orang luar meminta file daftar hadir lengkap untuk lomba sekolah.", "Apa yang sebaiknya diberikan?", "Bagikan data peserta minimum yang diperlukan setelah tujuan dan kewenangan dikonfirmasi.", "Daftar hadir lengkap dapat memuat informasi siswa yang tidak terkait.", "External Disclosure"],
+      ["Sekolah menerima permintaan penghapusan akun siswa dari wali.", "Apa yang harus diperiksa sebelum memprosesnya?", "Verifikasi pemohon, identifikasi data terkait, lalu terapkan retensi wajib dan hapus sisanya.", "Permintaan perlu diproses tanpa menghapus catatan yang wajib disimpan.", "Data Rights Handling"],
+      ["Perangkat ruang ujian terinfeksi tetapi masih tersambung ke jaringan administrasi.", "Tindakan containment apa yang tepat?", "Putuskan perangkat dari jaringan dan gunakan perangkat cadangan yang bersih setelah verifikasi.", "Isolasi mencegah kompromi meluas ke sistem akademik.", "Endpoint Containment"],
+      ["Tim menemukan akun administrator LMS tanpa MFA yang digunakan bersama.", "Apa perubahan yang harus diprioritaskan?", "Buat akun admin individual dan wajibkan MFA dengan pencatatan aktivitas.", "Akun individual dan MFA memperkuat kontrol istimewa.", "Privileged Identity"],
+      ["Data ujian bocor sebelum pelaksanaan dan salinan beredar di media sosial.", "Bagaimana sekolah merespons integritas akademik?", "Batasi akses dokumen, nilai cakupan kebocoran, dan tetapkan proses ujian pengganti yang adil.", "Respons perlu melindungi materi sekaligus keadilan bagi siswa.", "Exam Integrity"],
+      ["Sistem belajar pulih tetapi akun guru masih memakai kata sandi sementara yang dikirim email.", "Apa langkah pascapemulihan?", "Paksa reset melalui portal aman dan cabut kredensial sementara yang sudah terekspos.", "Kredensial sementara harus segera diganti dan tidak dikirim terbuka.", "Credential Hygiene"],
+      ["Penyedia LMS meminta file produksi berisi profil dan nilai siswa untuk debugging.", "Data uji apa yang tepat?", "Buat rekaman sintetis yang menyerupai struktur masalah tanpa identitas siswa.", "Data sintetis memungkinkan debugging tanpa membocorkan catatan anak.", "Synthetic Data"],
+      ["Insiden menghentikan layanan belajar daring selama satu hari.", "Bagaimana kesiapan untuk insiden berikutnya ditingkatkan?", "Lakukan tinjauan pascainsiden, tetapkan pemilik tindakan, dan uji ulang rencana pemulihan.", "Perbaikan terukur mengubah pengalaman menjadi peningkatan kesiapan.", "Lessons Learned"],
+      ["Penyelidik menemukan token akses siswa tetap berlaku setelah reset kata sandi.", "Apa penguatan teknis yang diperlukan?", "Cabut token refresh dan sesi aktif saat reset, lalu minta autentikasi ulang.", "Reset kata sandi perlu membatalkan kredensial sesi yang telah dicuri.", "Token Revocation"]
+    ]
+  },
+  {
+    district: "restaurant", level: 1,
+    distractors: [
+      "Simpan nomor kartu utuh bersama CVV dalam catatan reservasi",
+      "Kirim nomor telepon pelanggan kepada semua pegawai",
+      "Wajibkan izin lokasi permanen untuk setiap pemesanan"
+    ],
+    questions: [
+      ["Pelanggan memesan meja untuk dua orang lewat telepon.", "Data apa yang cukup untuk mengelola reservasi?", "Nama panggilan, waktu, jumlah tamu, dan kontak seperlunya untuk konfirmasi.", "Reservasi tidak membutuhkan data identitas serta pembayaran yang berlebihan.", "Data Minimization"],
+      ["Pelanggan memberi nomor telepon untuk kabar meja siap.", "Bolehkah nomor itu otomatis dimasukkan ke daftar promosi?", "Tidak; minta persetujuan terpisah untuk pesan pemasaran.", "Kontak reservasi dikumpulkan untuk tujuan layanan yang berbeda.", "Purpose Limitation"],
+      ["Program member menawarkan diskon ulang tahun.", "Bagaimana tanggal lahir dikumpulkan?", "Jadikan opsional, jelaskan manfaatnya, dan minta hanya informasi yang dibutuhkan.", "Tanggal lahir penuh sering lebih banyak daripada yang diperlukan untuk manfaat.", "Data Minimization"],
+      ["Restoran memotret pelanggan untuk mengiklankan menu baru.", "Apa yang perlu dilakukan sebelum mengunggah foto?", "Minta izin publikasi yang jelas dan hormati penolakan pelanggan.", "Foto yang dapat mengenali pelanggan adalah data pribadi dalam konteks ini.", "Consent"],
+      ["Aplikasi pemesanan meja meminta akses ke daftar kontak ponsel.", "Apa pilihan yang tepat untuk fungsi reservasi?", "Tolak akses kontak jika pelanggan dapat memasukkan penerima secara manual.", "Daftar kontak perangkat tidak diperlukan untuk membuat reservasi.", "Mobile Privacy"],
+      ["Kartu antrean meja menampilkan nama lengkap dan nomor telepon.", "Bagaimana papan antrean dibuat lebih aman?", "Tampilkan nomor antrean atau nama depan tanpa detail kontak.", "Pengunjung lain tidak perlu melihat informasi kontak pelanggan.", "Privacy by Design"],
+      ["Pelanggan meminta mengubah waktu reservasi.", "Data apa yang perlu diverifikasi?", "Referensi reservasi dan satu detail konfirmasi minimum melalui kanal yang sesuai.", "Verifikasi terbatas mencegah pengambilalihan reservasi tanpa meminta data berlebih.", "Identity Verification"],
+      ["Restoran mengumpulkan alamat rumah untuk pesanan makan di tempat.", "Data apa yang patut diminta untuk pesanan makan di tempat?", "Jangan kumpulkan alamat pengiriman bila pesanan tidak memerlukan pengiriman.", "Tujuan layanan menentukan data yang benar-benar diperlukan.", "Purpose Limitation"],
+      ["Pelanggan meminta tagihan dikirim ke email setelah makan.", "Bagaimana email tersebut dilindungi?", "Verifikasi alamat dan kirim hanya rincian transaksi yang diperlukan.", "Tagihan dapat mengungkap kebiasaan dan waktu kunjungan pelanggan.", "Secure Communication"],
+      ["Restoran menjalankan undian dan meminta nomor identitas seluruh pengunjung.", "Bagaimana pengumpulan data undian dinilai?", "Tentukan persyaratan yang sah dan kumpulkan data minimum hanya dari peserta.", "Keikutsertaan opsional tidak membenarkan pengumpulan identitas semua pengunjung.", "Fair Collection"]
+    ]
+  },
+  {
+    district: "restaurant", level: 2,
+    distractors: [
+      "Hubungkan jaringan tamu langsung ke komputer kasir",
+      "Biarkan router memakai kata sandi bawaan pabrik",
+      "Berikan akun POS supervisor kepada seluruh pegawai"
+    ],
+    questions: [
+      ["Wi-Fi tamu dan sistem kasir memakai jaringan lokal yang sama.", "Apa perubahan jaringan yang tepat?", "Pisahkan jaringan tamu dari POS dan perangkat operasional.", "Segmentasi menahan pengguna Wi-Fi umum mencapai sistem pembayaran.", "Network Segmentation"],
+      ["Pegawai menerima pesan QR menu baru yang meminta login email.", "Apa langkah aman?", "Verifikasi dengan manajer melalui kanal internal dan laporkan QR mencurigakan.", "Kode QR dapat menyembunyikan tautan phishing.", "QR Phishing"],
+      ["Router baru dipasang dengan kata sandi admin default.", "Apa konfigurasi awal yang benar?", "Ganti kredensial default dengan rahasia unik dan batasi akses administrasi.", "Kredensial bawaan mudah diketahui dan sering ditargetkan.", "Secure Configuration"],
+      ["Kasir meninggalkan terminal POS tanpa pengawasan saat jam sibuk.", "Kontrol apa yang perlu digunakan?", "Kunci sesi otomatis dan wajibkan autentikasi ulang untuk tindakan sensitif.", "Penguncian melindungi transaksi dari akses pengunjung atau staf lain.", "POS Access Control"],
+      ["Pegawai magang membutuhkan akses untuk mencetak struk saja.", "Hak apa yang sebaiknya diberikan?", "Peran kasir terbatas tanpa akses laporan atau konfigurasi pembayaran.", "Hak minimum membatasi kesalahan dan penyalahgunaan.", "Least Privilege"],
+      ["Restoran memasang aplikasi kasir dari tautan forum.", "Bagaimana perangkat lunak diperoleh?", "Pasang versi resmi dari vendor tepercaya dan verifikasi pembaruan.", "Sumber resmi menekan risiko aplikasi yang dimodifikasi.", "Software Supply Chain"],
+      ["Kamera keamanan dapat diakses dari internet memakai kata sandi lemah.", "Apa tindakan pengamanan?", "Ubah kata sandi, nonaktifkan akses publik yang tidak perlu, dan batasi jaringan.", "Antarmuka kamera terbuka dapat menjadi pintu masuk jaringan.", "IoT Security"],
+      ["Pegawai membagikan jadwal kerja melalui akun cloud pribadi.", "Apa proses yang lebih aman?", "Gunakan sistem kerja yang disetujui dengan akses hanya untuk staf terkait.", "Akun pribadi menghilangkan kendali organisasi atas jadwal dan akses.", "Approved Services"],
+      ["Tablet pemesanan masih login setelah pelanggan sebelumnya selesai.", "Bagaimana sesi tamu ditangani?", "Akhiri sesi, bersihkan data lokal, dan cegah pesanan sebelumnya terlihat.", "Perangkat bersama dapat membocorkan nama, alergi, atau pilihan pelanggan.", "Session Management"],
+      ["Pemasok meminta kredensial Wi-Fi utama untuk mendiagnosis printer.", "Akses apa yang sebaiknya disediakan?", "Buat akses dukungan sementara pada jaringan terpisah dan cabut setelah pekerjaan.", "Akses terbatas dan sementara mengurangi paparan jaringan restoran.", "Vendor Access"]
+    ]
+  },
+  {
+    district: "restaurant", level: 3,
+    distractors: [
+      "Hapus rekaman transaksi agar tidak ada bukti yang tersisa",
+      "Berikan akun cloud global kepada teknisi tanpa batas waktu",
+      "Pindahkan cadangan POS ke USB yang selalu tersambung"
+    ],
+    questions: [
+      ["POS tidak dapat menyelesaikan pembayaran dan mencatat transaksi yang sama dua kali.", "Bagaimana kasir mencegah tagihan ganda saat pemulihan?", "Cocokkan nomor transaksi dengan konfirmasi acquirer sebelum mencoba ulang.", "Rekonsiliasi mencegah pelanggan ditagih lebih dari sekali.", "Payment Reconciliation"],
+      ["Teknisi jarak jauh meminta akses tanpa batas ke jaringan restoran saat makan malam.", "Bagaimana akses dukungan diberikan?", "Jadwalkan sesi yang disetujui dengan hak minimum, MFA, pengawasan, dan batas waktu.", "Akses vendor terkontrol mengurangi risiko saat sistem sedang sibuk.", "Remote Vendor Access"],
+      ["Tablet pemesanan hilang setelah layanan selesai.", "Apa respons awal yang tepat?", "Cabut sesi, kunci atau hapus perangkat dari jarak jauh, lalu periksa data yang tersimpan.", "Pencabutan akses membatasi penyalahgunaan perangkat yang hilang.", "Lost Device Response"],
+      ["Karyawan menerima pesan dari 'pemilik' yang meminta membeli kartu hadiah dan merahasiakannya.", "Apa cara mencegah penipuan ini?", "Konfirmasi permintaan pembayaran lewat kanal yang sudah dikenal dan laporkan tekanan rahasia.", "Urgensi dan kerahasiaan adalah tanda umum rekayasa sosial.", "Social Engineering"],
+      ["Pelanggan menerima struk digital milik meja lain.", "Apa yang perlu dilakukan restoran?", "Hentikan pengiriman yang keliru, laporkan, identifikasi transaksi terdampak, dan koreksi alamat penerima.", "Kesalahan penerima dapat mengungkap detail kunjungan dan pembayaran.", "Data Disclosure Response"],
+      ["Akun layanan POS cloud masih aktif milik mantan manajer.", "Apa langkah offboarding?", "Nonaktifkan akun dan token, pindahkan kepemilikan, serta tinjau perubahan terakhir.", "Akun lama merupakan jalur akses yang tidak lagi memiliki pemilik.", "Identity Lifecycle"],
+      ["Jaringan restoran menunjukkan perangkat asing memindai port komputer kasir.", "Apa langkah containment?", "Isolasi segmen atau perangkat terdampak dan simpan log untuk investigasi.", "Containment mengurangi perpindahan penyerang tanpa menghancurkan bukti.", "Network Incident Response"],
+      ["Pegawai melihat pembaruan aplikasi POS muncul dari situs yang tidak dikenal.", "Apa tindakan yang aman?", "Jangan pasang; verifikasi paket melalui kanal vendor resmi dan beri tahu TI.", "Pembaruan palsu dapat membawa malware ke sistem pembayaran.", "Patch Integrity"],
+      ["Sistem reservasi cloud tak tersedia saat jam makan malam.", "Bagaimana restoran tetap melayani tanpa menyebarkan data?", "Gunakan prosedur offline minimum yang disetujui dan masukkan catatan secara aman setelah pulih.", "Prosedur darurat menjaga layanan tanpa mencatat data pelanggan secara sembarangan.", "Operational Resilience"],
+      ["Ransomware mengunci komputer kantor tetapi terminal pembayaran masih berjalan.", "Bagaimana jaringan ditangani?", "Isolasi komputer terdampak dan pastikan segmen pembayaran tidak terhubung sebelum operasi lanjut.", "Pemisahan mencegah ancaman merambat ke sistem transaksi.", "Ransomware Containment"],
+      ["Cadangan konfigurasi router disimpan pada folder publik pemasok.", "Apa perlindungan yang tepat?", "Pindahkan ke repositori terenkripsi dengan akses bernama dan tinjau siapa yang mengunduh.", "Konfigurasi dapat mengungkap rahasia jaringan dan harus dikendalikan.", "Configuration Security"],
+      ["Perangkat pemesanan meminta data alergi tetapi kemudian mengirimkannya ke sistem analitik iklan.", "Apa tindakan desain yang tepat?", "Pisahkan data layanan dari analitik dan larang pengiriman data sensitif untuk iklan.", "Informasi alergi tidak relevan dengan pelacakan pemasaran.", "Sensitive Data Purpose Limitation"],
+      ["Pelanggan meminta riwayat pesanan member dihapus.", "Bagaimana permintaan ditangani?", "Verifikasi akun, hapus data yang tidak wajib dipertahankan, dan dokumentasikan pengecualian.", "Proses penghapusan tetap mempertimbangkan kewajiban transaksi.", "Data Rights"],
+      ["Kasir mengirim foto struk yang memuat empat digit kartu dan waktu transaksi ke grup umum.", "Bagaimana kebiasaan ini diperbaiki?", "Hapus unggahan, gunakan tiket privat, dan redaksi pengenal transaksi sebelum berbagi.", "Detail transaksi dapat membantu penipu walau nomor kartu tidak lengkap.", "Payment Data Confidentiality"],
+      ["Kode QR pada meja diganti stiker yang mengarah ke situs pembayaran palsu.", "Apa respons operasionalnya?", "Tarik QR yang dimanipulasi, pasang kode tepercaya, dan peringatkan pelanggan melalui staf.", "Pemulihan fisik dan pemberitahuan mengurangi korban lanjutan.", "QR Tampering"],
+      ["Aplikasi pemasok meminta akses ke semua lokasi restoran untuk mencetak pesanan.", "Apa evaluasi yang diperlukan?", "Batasi izin pada lokasi dan fungsi yang benar-benar diperlukan atau pilih integrasi lain.", "Izin luas dapat membuka data atau kontrol lokasi lain.", "Integration Permissions"],
+      ["Penyelia mengunduh laporan penjualan ke flash drive pribadi.", "Apa tindakan pencegahan?", "Gunakan ekspor terkontrol ke perangkat terenkripsi milik organisasi dengan data minimum.", "Media pribadi mudah hilang dan tidak dapat diaudit.", "Removable Media Control"],
+      ["Restoran menduga kredensial Wi-Fi staf bocor di media sosial.", "Bagaimana restoran mengamankan Wi-Fi setelah kredensial staf bocor?", "Rotasi kredensial, cabut sesi lama, dan gunakan jaringan tamu terpisah.", "Rotasi dan segmentasi mencegah kredensial bocor mencapai POS.", "Credential Exposure"],
+      ["Mesin kasir tidak menerima pembaruan karena sertifikat vendor tidak cocok.", "Apa yang harus dilakukan teknisi?", "Hentikan instalasi dan verifikasi paket serta sertifikat melalui dukungan resmi.", "Ketidakcocokan sertifikat dapat menandakan paket palsu atau gangguan.", "Update Verification"],
+      ["Pelanggan melaporkan akun member dipakai untuk menukar poin tanpa izin.", "Apa langkah pemulihan?", "Kunci sesi, verifikasi pemilik melalui kanal resmi, dan periksa jejak penukaran.", "Pengamanan akun dan audit membantu menghentikan penyalahgunaan lanjutan.", "Loyalty Account Security"],
+      ["Server reservasi menyimpan nomor telepon dalam log kesalahan tanpa batas waktu.", "Bagaimana log reservasi menghindari penyimpanan nomor telepon berlebihan?", "Redaksi nomor dari log dan tetapkan retensi serta akses terbatas.", "Log diagnostik tidak perlu menjadi arsip identitas pelanggan.", "Log Minimization"],
+      ["Pelanggan mengirim data kartu melalui pesan media sosial restoran.", "Apa respons agen?", "Jangan meneruskan atau menyimpan data; minta pelanggan memakai kanal pembayaran resmi.", "Pesan sosial bukan kanal yang aman untuk rincian kartu.", "Secure Payment Channel"],
+      ["Toko pemasok meminta membuka port firewall POS untuk selamanya.", "Bagaimana permintaan ini dikelola?", "Tolak akses permanen; gunakan koneksi yang dibatasi, disetujui, dipantau, dan berakhir otomatis.", "Port terbuka jangka panjang memperbesar permukaan serangan.", "Firewall Change Control"],
+      ["Seorang pegawai melihat pesanan meja VIP pada akun yang tidak terkait pekerjaannya.", "Apa perilaku yang sesuai?", "Jangan menyalin informasi dan laporkan kemungkinan salah konfigurasi kepada manajer.", "Akses tidak sengaja tetap harus ditangani tanpa memperluas paparan.", "Insider Privacy"],
+      ["Penyedia cloud mengumumkan insiden yang mungkin mencakup data reservasi.", "Informasi apa yang perlu diminta restoran?", "Cakupan data, waktu paparan, mitigasi, bukti, dan langkah pemberitahuan yang relevan.", "Informasi terperinci membantu restoran menilai dampak pada pelanggan.", "Vendor Incident Assurance"],
+      ["Setelah router diganti, perangkat tamu dapat menjangkau printer dapur dan POS.", "Apa perbaikan konfigurasi?", "Terapkan aturan segmentasi dan uji bahwa jaringan tamu tidak dapat mencapai perangkat internal.", "Uji konektivitas membuktikan batas keamanan benar-benar berlaku.", "Segmentation Validation"],
+      ["Pencadangan POS gagal beberapa hari dan tidak ada peringatan yang ditinjau.", "Bagaimana proses diperkuat?", "Pantau kegagalan, tetapkan pemilik peringatan, dan lakukan uji pemulihan berkala.", "Cadangan tanpa pemantauan dapat gagal diam-diam saat dibutuhkan.", "Backup Monitoring"],
+      ["Pelanggan mengirim foto anaknya dan nomor meja untuk meminta unggahan media sosial.", "Bagaimana staf menangani foto tersebut?", "Pastikan izin publikasi mencakup orang yang tampak dan hindari menambahkan data lokasi atau identitas.", "Foto anak dan metadata lokasi dapat mengungkap lebih dari yang disadari.", "Image Privacy"],
+      ["Log akses POS menunjukkan perubahan rekening penyelesaian setelah jam tutup.", "Bagaimana perubahan itu diverifikasi?", "Hubungi pemilik melalui kanal tepercaya, tahan pembayaran bila prosedur mengizinkan, dan simpan audit log.", "Verifikasi independen mendeteksi pengalihan dana dan menjaga bukti.", "Settlement Fraud"],
+      ["Restoran selesai memulihkan operasi setelah insiden dan beberapa perangkat diganti.", "Bagaimana memastikan lingkungan baru aman?", "Inventaris perangkat, pasang konfigurasi dasar, rotasi rahasia, dan uji pemisahan jaringan.", "Penggantian perangkat perlu diikuti penguatan serta validasi kontrol.", "Post-Incident Hardening"]
+    ]
+  }
+);
 
 let nextAdditionalQuestionId = 41;
 ADDITIONAL_QUESTION_BANKS.forEach(bank => {
@@ -908,6 +1231,20 @@ ADDITIONAL_QUESTION_BANKS.forEach(bank => {
       principle
     });
   });
+});
+
+const bankCounts = new Map();
+QUESTIONS_DATA.forEach(question => {
+  const bankId = `${question.district}-${question.level}`;
+  bankCounts.set(bankId, (bankCounts.get(bankId) || 0) + 1);
+});
+["hospital", "eshop", "school", "restaurant"].forEach(district => {
+  for (let level = 1; level <= 3; level++) {
+    const count = bankCounts.get(`${district}-${level}`) || 0;
+    if (count !== 30) {
+      console.error(`Question bank ${district} level ${level} has ${count} questions; exactly 30 are required.`);
+    }
+  }
 });
 
 window.QUESTIONS_DATA = QUESTIONS_DATA;

@@ -318,6 +318,15 @@
   color: var(--text-dim);
 }
 
+.quiz-inventory-button {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  color: var(--cyan);
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 /* Feedback Modal Content */
 .feedback-container {
   display: flex;
@@ -740,6 +749,7 @@
   .quiz-powerups-bar {
     flex-shrink: 0;
     padding: 6px 10px;
+    gap: 7px;
   }
 
   .btn-powerup {
@@ -750,6 +760,11 @@
 
   .keyboard-hints {
     display: none;
+  }
+
+  .quiz-inventory-button {
+    padding: 6px 8px;
+    font-size: 0.68rem;
   }
 
   .complete-card,

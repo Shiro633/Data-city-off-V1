@@ -8,20 +8,24 @@
 
 Pemain berperan sebagai **Data City Officer**, seorang petugas pertahanan siber muda yang bertugas melindungi **Data City** dari ancaman kebocoran privasi, serangan ransomware, phising, pencurian kredensial, dan eksploitasi data ilegal.
 
-Game ini mencakup **4 Distrik**, masing-masing dengan 2 level dan 20 pertanyaan unik per level (total **160 pertanyaan edukatif**). Setiap sesi level memilih dan mengacak 5 pertanyaan tanpa duplikasi dari bank level tersebut.
+Game ini mencakup **4 stage** (Hospital, E-Shop, School, Restaurant), masing-masing dengan **3 level**. Setiap level memiliki **30 pertanyaan unik** (total **360 pertanyaan edukatif**); setiap sesi memilih dan mengacak 5 soal tanpa duplikasi dari bank level tersebut.
 
 1. 🏥 **Hospital District (Dr. Maya - Chief Medical Officer)**
    * **Level 1:** Pendaftaran Pasien Baru *(Data Collection & Minimization)*
    * **Level 2:** Perlindungan Data Pasien *(Data Protection & Sharing, Encryption, Ransomware, Audit Log)*
+   * **Level 3:** Audit Klinis & Respons Insiden
 2. 🛒 **E-Shop District (Alex - Cybersecurity Lead)**
    * **Level 1:** Transaksi Pelanggan *(PCI-DSS, CVV, Consent, Right to Erasure)*
    * **Level 2:** Menghadapi Ancaman Siber *(HTTPS, SQL Injection, 2FA, Phishing, Brute Force)*
+   * **Level 3:** Resiliensi Transaksi & Anti-Fraud
 3. 🏫 **School District (Ms. Rina - Principal & EdTech Head)**
    * **Level 1:** Pendaftaran Siswa Baru *(Sensitive Data, Biometrics, Need to Know, Child Privacy)*
    * **Level 2:** Melindungi Data Sekolah *(Cloud Security, Malware, Account Sharing, Data Disposal)*
+   * **Level 3:** Tanggap Insiden Akademik
 4. 🍽️ **Restaurant District (Chef Budi - Restaurant Owner)**
    * **Level 1:** Program Loyalitas Pelanggan *(Minimisasi Data, Opt-Out SMS, Privacy by Design)*
    * **Level 2:** Keamanan Jaringan Restoran *(Segmentasi Wi-Fi Tamu, Default Passwords, Incident Response)*
+   * **Level 3:** Operasi Restoran Tangguh
 
 ---
 
@@ -66,7 +70,7 @@ data-city-officer/
 │   ├── game.js           # Core game engine, timer 90 detik, sistem lives, data breach, evaluasi
 │   ├── city.js           # Eksplorasi 2D, camera follow, collision, NPC & misi
 │   ├── state.js          # Central game state, konfigurasi distrik, peringkat, achievement
-│   ├── questions.js      # Bank 160 soal skenario lengkap dengan penjelasan & prinsip
+│   ├── questions.js      # Bank 360 soal unik untuk 12 level
 │   ├── ui.js             # Render tampilan, SVG karakter adaptif, feedback, toast, confetti
 │   ├── audio.js          # Procedural Web Audio API sound synthesizer
 │   └── storage.js        # LocalStorage save/load/reset manager dengan safe fallback
@@ -95,6 +99,10 @@ data-city-officer/
 * **Power-Ups (1x per level):**
   * 🔍 **Audit Log (Tombol L):** Mengeliminasi 2 opsi jawaban yang salah.
   * 🔐 **Encryption (Tombol E):** Membekukan timer selama 7 detik.
+* **Ekonomi & Supply Shop:**
+  * Bayaran warga diberikan satu kali setelah setiap level selesai; nominal mudah disesuaikan berdasarkan tingkat kesulitan.
+  * Buka tombol **SHOP** untuk membeli supply, melihat stok inventaris, dan menggunakan item pada kondisi gameplay yang sesuai.
+  * Saldo, pembayaran, inventaris, dan progres disimpan secara lokal.
 * **Karakter Utama Interaktif:**
   * Dibuat menggunakan SVG/CSS murni dengan ekspresi dinamis (*idle, thinking, happy, worried, shocked, victory*).
 * **Web Audio API Synthesizer:**
@@ -105,17 +113,17 @@ data-city-officer/
   * Dilengkapi tombol *Continue Mission* dan opsi *Reset Game Data* dengan dialog konfirmasi.
 * **Achievement:**
   * 10 achievement dapat dibuka, termasuk Clean Sweep (5 jawaban benar dalam satu level), Speed Demon (10 speed bonus), First Audit (menggunakan Audit Log sekali), Encryption Expert (5 penggunaan Encryption), dan City Savior (menyelesaikan keempat distrik).
-* **Sistem Peringkat Akhir (0–4000 Base Score):**
+* **Sistem Peringkat Akhir (0–6000 Base Score):**
   * 0–1000: *Rookie Officer*
   * 1001–2500: *Junior Officer*
   * 2501–3500: *Senior Officer*
-  * 3501–4000: *Chief Data Guardian*
+  * 3501–6000: *Chief Data Guardian*
 
 ---
 
 ## ⌨️ KONTROL KEYBOARD & AKSESIBILITAS
 
-Di world kota, gunakan `WASD` atau tombol panah untuk bergerak, `E` untuk berbicara/memeriksa objek, dan `Esc` untuk pause. Pada perangkat sentuh, directional pad dan tombol interaksi akan muncul otomatis. Dekati NPC distrik untuk memulai dua misi bertahap; setiap misi menjalankan lima pertanyaan unik yang diacak dari bank 20 soal khusus level tersebut.
+Di world kota, gunakan `WASD` atau tombol panah untuk bergerak, `E` untuk berbicara/memeriksa objek, dan `Esc` untuk pause. Pada perangkat sentuh, directional pad dan tombol interaksi akan muncul otomatis. Dekati NPC untuk memilih satu dari tiga misi berurutan pada stage tersebut; setiap level menjalankan lima pertanyaan unik yang diacak dari bank 30 soal khusus level tersebut.
 
 Setelah tutorial, game masuk ke world 2D Data City. Pemain dapat menjelajahi empat lokasi, menyelesaikan misi melalui NPC, lalu kembali ke kota untuk melanjutkan progression. Posisi, XP, security kota, skor, badge, dan progression distrik tersimpan secara lokal. Peta distrik berbasis kartu tetap tersedia sebagai layar lama.
 

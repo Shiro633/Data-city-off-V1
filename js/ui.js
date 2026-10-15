@@ -34,6 +34,7 @@ const UIManager = {
     const speedVal = document.getElementById("header-speed-val");
     const livesVal = document.getElementById("header-lives-val");
     const soundBtn = document.getElementById("btn-sound-toggle");
+    const balanceVal = document.getElementById("header-balance-val");
 
     if (scoreVal) scoreVal.textContent = state.score.baseScore;
     if (speedVal) speedVal.textContent = `+${state.score.speedBonus}`;
@@ -50,6 +51,72 @@ const UIManager = {
       soundBtn.textContent = state.settings.soundEnabled ? "🔊" : "🔇";
       soundBtn.setAttribute("aria-label", state.settings.soundEnabled ? "Mute Sound" : "Unmute Sound");
     }
+    if (balanceVal) balanceVal.textContent = this.formatCurrency(state.balance);
+
+    if (document.getElementById("modal-shop")?.classList.contains("active")) {
+      this.renderShop(state);
+    }
+    if (document.getElementById("modal-inventory")?.classList.contains("active")) {
+      this.renderInventory(state);
+    }
+  },
+
+  formatCurrency(amount) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }).format(Math.max(0, Number.isFinite(amount) ? amount : 0)).replace(/\u00a0/g, "");
+  },
+
+  renderShop(state) {
+    const balance = document.getElementById("shop-balance-val");
+    const grid = document.getElementById("shop-item-grid");
+    const inventory = document.getElementById("shop-inventory-summary");
+    if (!grid || !inventory) return;
+
+    if (balance) balance.textContent = this.formatCurrency(state.balance);
+    inventory.innerHTML = `<span>🎒 STOK PERLENGKAPAN</span>${Object.values(SUPPLY_ITEMS).map(item =>
+      `<b>${item.icon} ${item.name}: ${state.inventory[item.id] || 0}</b>`
+    ).join("")}`;
+    grid.innerHTML = Object.values(SUPPLY_ITEMS).map(item => `
+      <article class="shop-item-card">
+        <div class="shop-item-icon" aria-hidden="true">${item.icon}</div>
+        <h3>${item.name}</h3>
+        <p class="shop-item-description">${item.description}</p>
+        <p class="shop-item-effect"><strong>EFEK:</strong> ${item.effect}</p>
+        <div class="shop-item-meta">
+          <strong class="shop-item-price">${this.formatCurrency(item.price)}</strong>
+          <span>Dimiliki: <b>${state.inventory[item.id] || 0}</b></span>
+        </div>
+        <button class="btn-primary shop-buy-button" type="button" data-buy-item="${item.id}">
+          BUY
+        </button>
+      </article>
+    `).join("");
+  },
+
+  renderInventory(state) {
+    const list = document.getElementById("inventory-item-list");
+    if (!list) return;
+    list.innerHTML = Object.values(SUPPLY_ITEMS).map(item => {
+      const quantity = state.inventory[item.id] || 0;
+      const shieldIsActive = item.id === "encryptionShield" && state.activeShield;
+      const disabled = quantity < 1 || shieldIsActive;
+      const buttonLabel = shieldIsActive ? "AKTIF" : "GUNAKAN";
+      return `
+        <article class="inventory-item">
+          <div class="inventory-item-icon" aria-hidden="true">${item.icon}</div>
+          <div class="inventory-item-info">
+            <strong>${item.name} <span>×${quantity}</span></strong>
+            <small>${item.effect}</small>
+          </div>
+          <button class="btn-secondary inventory-use-button" type="button" data-use-item="${item.id}" ${disabled ? "disabled" : ""}>
+            ${buttonLabel}
+          </button>
+        </article>
+      `;
+    }).join("");
   },
 
   /**
@@ -193,9 +260,18 @@ const UIManager = {
       const dConfig = DISTRICTS_CONFIG[key];
       let dState = districts[key];
       if (!dState) {
-        districts[key] = { unlocked: index === 0, level1Complete: false, level2Complete: false, security: 20 };
+        districts[key] = {
+          unlocked: index === 0,
+          levels: [false, false, false],
+          level1Complete: false,
+          level2Complete: false,
+          level3Complete: false,
+          security: 20
+        };
         dState = districts[key];
       }
+      const completedLevels = dState.levels.filter(Boolean).length;
+      const stageComplete = GameState.isStageComplete(key);
       totalSec += dState.security;
 
       const card = document.getElementById(`card-${key}`);
@@ -203,7 +279,9 @@ const UIManager = {
 
       // Classes
       card.classList.toggle("locked", !dState.unlocked);
-      card.classList.toggle("completed", dState.level2Complete);
+      card.classList.toggle("completed", stageComplete);
+      const districtName = card.querySelector(".district-name");
+      if (districtName) districtName.textContent = `STAGE ${index + 1} — ${dConfig.name.replace(" District", "").toUpperCase()}`;
 
       // Security Fill & Color
       const fill = card.querySelector(".sec-progress-fill");
@@ -230,12 +308,12 @@ const UIManager = {
 
       if (statusBadge) {
         statusBadge.className = "district-badge-status";
-        if (dState.level2Complete) {
+        if (stageComplete) {
           statusBadge.classList.add("badge-completed");
           statusBadge.textContent = "SECURED";
         } else if (dState.unlocked) {
           statusBadge.classList.add("badge-unlocked");
-          statusBadge.textContent = dState.level1Complete ? "LVL 2 READY" : "UNLOCKED";
+          statusBadge.textContent = completedLevels ? `LVL ${completedLevels + 1} READY` : "UNLOCKED";
         } else {
           statusBadge.classList.add("badge-locked");
           statusBadge.textContent = "LOCKED";
@@ -246,7 +324,7 @@ const UIManager = {
         if (!dState.unlocked) {
           actionBtn.textContent = "🔒 LOCKED";
           actionBtn.disabled = true;
-        } else if (dState.level2Complete) {
+        } else if (stageComplete) {
           actionBtn.textContent = "✓ REVISIT";
           actionBtn.disabled = false;
         } else {
@@ -297,8 +375,7 @@ const UIManager = {
     const name = document.getElementById("briefing-npc-name");
     const role = document.getElementById("briefing-npc-role");
     const quote = document.getElementById("briefing-npc-quote");
-    const lvl1Btn = document.getElementById("briefing-lvl1-btn");
-    const lvl2Btn = document.getElementById("briefing-lvl2-btn");
+    const levelsList = document.getElementById("briefing-levels-list");
 
     if (title) title.textContent = `${dConfig.icon} ${dConfig.name}`;
     if (avatar) avatar.textContent = dConfig.npcAvatar;
@@ -306,22 +383,35 @@ const UIManager = {
     if (role) role.textContent = dConfig.npcRole;
     if (quote) quote.textContent = `"${dConfig.briefing.quote}"`;
 
-    if (lvl1Btn) {
-      document.getElementById("briefing-lvl1-title").textContent = dConfig.briefing.level1Title;
-      document.getElementById("briefing-lvl1-desc").textContent = dConfig.briefing.level1Desc;
-      document.getElementById("briefing-lvl1-badge").textContent = dState.level1Complete ? "✓ COMPLETED" : "LEVEL 1";
-    }
-
-    if (lvl2Btn) {
-      document.getElementById("briefing-lvl2-title").textContent = dConfig.briefing.level2Title;
-      document.getElementById("briefing-lvl2-desc").textContent = dConfig.briefing.level2Desc;
-
-      const lvl2Locked = !dState.level1Complete;
-      lvl2Btn.classList.toggle("locked", lvl2Locked);
-      lvl2Btn.disabled = lvl2Locked;
-      document.getElementById("briefing-lvl2-badge").textContent = dState.level2Complete
-        ? "✓ COMPLETED"
-        : lvl2Locked ? "🔒 LOCKED" : "LEVEL 2";
+    if (levelsList) {
+      const titles = [
+        dConfig.briefing.level1Title,
+        dConfig.briefing.level2Title,
+        dConfig.briefing.level3Title
+      ];
+      const descriptions = [
+        dConfig.briefing.level1Desc,
+        dConfig.briefing.level2Desc,
+        dConfig.briefing.level3Desc
+      ];
+      levelsList.innerHTML = titles.map((levelTitle, index) => {
+        const level = index + 1;
+        const completed = GameState.isLevelComplete(districtKey, level);
+        const locked = !dState.unlocked || (level > 1 && !GameState.isLevelComplete(districtKey, level - 1));
+        const badge = completed ? "✓ COMPLETED" : locked ? "🔒 LOCKED" : `LEVEL ${level} READY`;
+        const icon = completed ? "✓" : locked ? "🔒" : "➔";
+        return `
+          <button class="level-card-option ${locked ? "locked" : ""} ${completed ? "completed" : ""}"
+            type="button" data-briefing-level="${level}" ${locked ? "disabled" : ""}>
+            <span class="level-card-header">
+              <span class="level-badge-tag">${badge}</span>
+              <span class="level-status-icon" aria-hidden="true">${icon}</span>
+            </span>
+            <span class="level-card-title">${levelTitle}</span>
+            <span class="level-card-desc">${descriptions[index]}</span>
+          </button>
+        `;
+      }).join("");
     }
 
     if (modal) modal.classList.add("active");
@@ -341,7 +431,8 @@ const UIManager = {
     const hudCounter = document.getElementById("hud-question-counter");
 
     if (hudBadge) hudBadge.textContent = dConfig ? dConfig.icon : "🛡️";
-    if (hudTitle) hudTitle.textContent = `${dConfig ? dConfig.name : ""} - LVL ${question.level}`;
+    const stageIndex = DISTRICT_ORDER.indexOf(question.district) + 1;
+    if (hudTitle) hudTitle.textContent = `STAGE ${stageIndex} — ${dConfig ? dConfig.name.replace(" District", "").toUpperCase() : ""} • LEVEL ${question.level}`;
     if (hudSec) hudSec.textContent = `DATA SECURITY: ${dState ? dState.security : 20}%`;
     if (hudCounter) hudCounter.textContent = `QUESTION ${state.currentQuestionIndex + 1}/5`;
     this.updateQuestionProgress(state.currentQuestionIndex);
@@ -629,10 +720,10 @@ const UIManager = {
     const actionBtn = document.getElementById("btn-complete-continue");
 
     if (icon) icon.textContent = isDistrictSecured ? "🏆" : "🛡️";
-    if (title) title.textContent = isDistrictSecured ? "DISTRICT SECURED!" : "LEVEL COMPLETE!";
+    if (title) title.textContent = isDistrictSecured ? "STAGE SECURED!" : "LEVEL COMPLETE!";
     if (sub) {
       sub.textContent = isDistrictSecured
-        ? `Selamat! Distrik ${dConfig ? dConfig.name : ""} berhasil diselamatkan 100%!`
+        ? `Selamat! Stage ${dConfig ? dConfig.name : ""} berhasil diselesaikan 100%!`
         : `Tingkat keamanan berhasil dipulihkan sebesar ${restoredSec}%`;
     }
     if (scoreVal) scoreVal.textContent = `${levelScore} / 500`;
@@ -653,8 +744,11 @@ const UIManager = {
       actionBtn.textContent = isDistrictSecured ? "RETURN TO CITY" : "CONTINUE MISSION";
     }
     if (sub && Number.isFinite(rewards.citySecurityGain)) {
-      sub.textContent += ` • Mission +250 XP • City Security +${rewards.citySecurityGain}%`;
-      if (isDistrictSecured) sub.textContent += " • District +500 XP";
+      sub.textContent += ` • Level ${level}/3 • Mission +250 XP • City Security +${rewards.citySecurityGain}%`;
+      if (Number.isFinite(rewards.payment) && rewards.payment > 0) {
+        sub.textContent += ` • Bayaran ${this.formatCurrency(rewards.payment)}`;
+      }
+      if (isDistrictSecured) sub.textContent += " • Stage +500 XP";
     }
 
     this.setCharacterExpression("victory");
@@ -680,7 +774,7 @@ const UIManager = {
       rankTag.style.borderColor = rank.color;
     }
 
-    if (scoreVal) scoreVal.textContent = `${baseScore} / 4000`;
+    if (scoreVal) scoreVal.textContent = `${baseScore} / 6000`;
     if (speedVal) speedVal.textContent = `+${speedBonus}`;
     const securityVal = document.getElementById("ending-security-val");
     const securityFill = document.getElementById("ending-security-fill");
