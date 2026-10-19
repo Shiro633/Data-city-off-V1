@@ -160,6 +160,10 @@ body {
   gap: 20px;
 }
 
+.header-stats[hidden] {
+  display: none;
+}
+
 .stat-pill {
   display: flex;
   align-items: center;
@@ -204,6 +208,10 @@ body {
   font-size: 0.78rem;
   font-weight: 800;
   white-space: nowrap;
+}
+
+.header-shop-button[hidden] {
+  display: none;
 }
 
 @media (max-width: 680px) {

@@ -29,9 +29,7 @@ const CityWorld = {
     { id: "ms_rina", district: "school", x: 440, y: 405, name: "Ms. Rina", role: "Principal & EdTech Head", avatar: "👩‍🏫", color: "#ffcd69" },
     { id: "chef_budi", district: "restaurant", x: 445, y: 850, name: "Chef Budi", role: "Restaurant Owner", avatar: "👨‍🍳", color: "#ff9f43" }
   ],
-  props: [
-    { id: "terminal", x: 910, y: 460, radius: 48, icon: "💻", name: "Public terminal" }
-  ],
+  props: [],
   trees: [[110, 110], [720, 150], [1060, 130], [1660, 145], [110, 450], [1685, 440], [120, 800], [1680, 790], [710, 1120], [1050, 1140], [700, 910], [1050, 390]],
   benches: [[690, 465], [1080, 785], [710, 805], [1085, 465]],
 

@@ -25,7 +25,7 @@ const SUPPLY_ITEMS = {
     id: "recoveryKit",
     name: "Emergency Recovery Kit",
     icon: "🩹",
-    price: 20000,
+    price: 35000,
     description: "Perlengkapan medis darurat untuk Officer.",
     effect: "Pulihkan 1 nyawa saat nyawa kurang dari 3."
   },
@@ -33,7 +33,7 @@ const SUPPLY_ITEMS = {
     id: "timeToken",
     name: "Time Extension Token",
     icon: "⏱️",
-    price: 15000,
+    price: 25000,
     description: "Tambahan waktu untuk menganalisis insiden.",
     effect: "Tambahkan 15 detik ke timer soal saat ini."
   },
@@ -57,7 +57,7 @@ const SUPPLY_ITEMS = {
     id: "forensicAnalyzer",
     name: "Forensic Analyzer",
     icon: "🔬",
-    price: 35000,
+    price: 30000,
     description: "Analisis forensik untuk memahami inti skenario.",
     effect: "Tampilkan prinsip keamanan data sebagai petunjuk tambahan."
   }

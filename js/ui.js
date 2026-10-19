@@ -21,6 +21,16 @@ const UIManager = {
       target.classList.add("active");
     }
 
+    const headerStats = document.querySelector(".header-stats");
+    if (headerStats) {
+      headerStats.hidden = !["city", "quiz"].includes(screenId);
+    }
+
+    const shopButton = document.getElementById("btn-open-shop");
+    if (shopButton) {
+      shopButton.hidden = screenId !== "city";
+    }
+
     // Scroll viewport to top
     const viewport = document.getElementById("screens-viewport");
     if (viewport) viewport.scrollTop = 0;

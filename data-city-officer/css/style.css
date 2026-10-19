@@ -160,6 +160,10 @@ body {
   gap: 20px;
 }
 
+.header-stats[hidden] {
+  display: none;
+}
+
 .stat-pill {
   display: flex;
   align-items: center;
