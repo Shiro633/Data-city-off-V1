@@ -1054,6 +1054,17 @@
     display: none;
   }
 
+  #screen-tutorial {
+    height: auto;
+    min-height: 100%;
+    justify-content: flex-start;
+  }
+
+  .tutorial-card {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
   .menu-hero {
     display: none;
   }
