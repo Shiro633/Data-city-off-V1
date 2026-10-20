@@ -38,14 +38,15 @@ Buka terminal di folder project, lalu jalankan:
 ```bash
 python -m http.server 8000
 ```
-Buka browser di alamat: `http://localhost:8000`
+Buka `http://localhost:8000` untuk landing page, lalu klik **Play Now** untuk membuka game.
 
 ### Cara 2: Live Server di VS Code
 1. Klik kanan pada `index.html`.
 2. Pilih **"Open with Live Server"**.
+3. Klik **Play Now** pada landing page untuk mulai bermain.
 
 ### Cara 3: Langsung Buka File di Browser
-Klik dua kali file `index.html` langsung dari file explorer Windows.
+Klik dua kali file `index.html` untuk membuka landing page, atau `game.html` untuk membuka game secara langsung.
 
 ---
 
@@ -54,10 +55,11 @@ Klik dua kali file `index.html` langsung dari file explorer Windows.
 ```text
 data-city-officer/
 │
-├── index.html            # Halaman utama game
+├── index.html            # Landing page
+├── game.html             # Game Data City Officer
 ├── DCO.html              # Entry point alternatif / redirect
-│
 ├── css/
+│   ├── landing.css       # Styling khusus landing page
 │   ├── style.css         # Desain sistem global, warna cyber neon, tipografi
 │   ├── city.css          # Canvas world, HUD, minimap, dialog & kontrol sentuh
 │   ├── menu.css          # Splash screen, menu utama, tutorial, modal briefing
@@ -66,6 +68,7 @@ data-city-officer/
 │   └── animations.css    # Animasi CSS, glitch, red strobe, shake, victory jump
 │
 ├── js/
+│   ├── landing.js        # Interaksi landing page
 │   ├── main.js           # Entry point, canvas cyber background, event listeners
 │   ├── game.js           # Core game engine, timer 90 detik, sistem lives, data breach, evaluasi
 │   ├── city.js           # Eksplorasi 2D, camera follow, collision, NPC & misi
